@@ -6,12 +6,15 @@
 //  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
-#import "RootViewController.h"
+#import "HistoryTableViewController.h"
+#import "MilesTrackerAppDelegate.h"
 
 
-@implementation RootViewController
+@implementation HistoryTableViewController
 
 @synthesize fetchedResultsController, managedObjectContext;
+@synthesize navigationController;
+@synthesize delegate;
 
 
 #pragma mark -
@@ -27,6 +30,8 @@
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject)];
     self.navigationItem.rightBarButtonItem = addButton;
     [addButton release];
+	
+	self.managedObjectContext = delegate.managedObjectContext;
 	
 	NSError *error = nil;
 	if (![[self fetchedResultsController] performFetch:&error]) {

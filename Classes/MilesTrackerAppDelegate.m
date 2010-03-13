@@ -7,13 +7,13 @@
 //
 
 #import "MilesTrackerAppDelegate.h"
-#import "RootViewController.h"
+#import "HistoryViewController.h"
 
 
 @implementation MilesTrackerAppDelegate
 
 @synthesize window;
-@synthesize navigationController;
+@synthesize tabBarController;
 
 
 #pragma mark -
@@ -23,10 +23,9 @@
     
     // Override point for customization after app launch    
 
-	RootViewController *rootViewController = (RootViewController *)[navigationController topViewController];
-	rootViewController.managedObjectContext = self.managedObjectContext;
+	//rootViewController.managedObjectContext = self.managedObjectContext;
 	
-	[window addSubview:[navigationController view]];
+	[window addSubview:tabBarController.view];
     [window makeKeyAndVisible];
 }
 
@@ -139,7 +138,7 @@
     [managedObjectModel release];
     [persistentStoreCoordinator release];
     
-	[navigationController release];
+	[tabBarController release];
 	[window release];
 	[super dealloc];
 }
