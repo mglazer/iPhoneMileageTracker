@@ -711,7 +711,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {519, 308}}";
 			sepNavSelRange = "{240, 0}";
-			sepNavVisRange = "{35, 346}";
+			sepNavVisRange = "{3, 378}";
 		};
 	};
 	272C8DA4114AEEA000B641C4 /* HistoryControllerDelegate.m */ = {
@@ -1128,9 +1128,9 @@
 		sourceTree = SOURCE_ROOT;
 		uiCtxt = {
 			sepNavFolds = "{\n    c =     (\n                {\n            l = DetailViewController;\n            r = \"{4727, 24}\";\n            s = 1;\n        },\n                {\n            l = DetailViewController;\n            r = \"{4778, 24}\";\n            s = 1;\n        },\n                {\n            l = \"Nib name\";\n            r = \"{4828, 12}\";\n            s = 1;\n        }\n    );\n    r = \"{0, 9949}\";\n    s = 0;\n}";
-			sepNavIntBoundsRect = "{{0, 0}, {519, 4130}}";
-			sepNavSelRange = "{224, 0}";
-			sepNavVisRange = "{0, 387}";
+			sepNavIntBoundsRect = "{{0, 0}, {439, 4140}}";
+			sepNavSelRange = "{171, 0}";
+			sepNavVisRange = "{3, 291}";
 			sepNavWindowFrame = "{{107, 66}, {933, 623}}";
 		};
 	};
