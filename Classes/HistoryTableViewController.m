@@ -8,6 +8,8 @@
 
 #import "HistoryTableViewController.h"
 #import "MilesTrackerAppDelegate.h"
+#import "EventEditorViewController.h"
+#import "EventAddViewController.h"
 
 
 @implementation HistoryTableViewController
@@ -15,7 +17,15 @@
 @synthesize fetchedResultsController, managedObjectContext;
 @synthesize navigationController;
 @synthesize delegate;
+@synthesize nibLoadedCell;
+@synthesize eventEditor;
 
+
+enum HistoryCellTags {
+	HISTORY_CELL_TAG_NAME = 1,
+	HISTORY_CELL_TAG_DATE = 2,
+	HISTORY_CELL_TAG_DISTANCE = 3
+};
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -27,7 +37,7 @@
 	// Set up the edit and add buttons.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject)];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addEvent)];
     self.navigationItem.rightBarButtonItem = addButton;
     [addButton release];
 	
@@ -83,27 +93,45 @@
 #pragma mark -
 #pragma mark Add a new object
 
-- (void)insertNewObject {
+- (void)addEvent {
 	
 	// Create a new instance of the entity managed by the fetched results controller.
 	NSManagedObjectContext *context = [fetchedResultsController managedObjectContext];
-	NSEntityDescription *entity = [[fetchedResultsController fetchRequest] entity];
-	NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+	Event *event = [NSEntityDescription insertNewObjectForEntityForName:@"Event" inManagedObjectContext:context];
 	
 	// If appropriate, configure the new managed object.
-	[newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
+	[event setValue:[NSDate date] forKey:@"timeStamp"];
 	
-	// Save the context.
-    NSError *error = nil;
-    if (![context save:&error]) {
-		/*
-		 Replace this implementation with code to handle the error appropriately.
-		 
-		 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
-		 */
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
-    }
+	EventAddViewController* controller = [[EventAddViewController alloc] initWithNibName:@"EventAddView" bundle: nil];
+	controller.delegate = self;
+	controller.event = event;
+	
+	UINavigationController *addEventNavigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    [self presentModalViewController:addEventNavigationController animated:YES];
+    
+    [addEventNavigationController release];
+    [controller release];
+
+}
+
+#pragma mark -
+#pragma mark EventAddDelegate methods
+
+- (void)eventAddViewController:(EventAddViewController*)source didAddEvent:(Event*)event {
+	if ( event ) {
+		[self showEvent:event animated:NO];
+	}
+	
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)showEvent:(Event*)event animated:(BOOL)animated {
+	EventEditorViewController* controller = [[EventEditorViewController alloc] initWithStyle:UITableViewStyleGrouped];
+	
+	controller.event = event;
+	
+	[self.navigationController pushViewController:controller animated:YES];
+	[controller release];
 }
 
 
@@ -124,16 +152,29 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"HistoryViewTableCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+	if (cell == nil) {
+		[[NSBundle mainBundle] loadNibNamed:@"HistoryViewTableCell" owner:self options:nil];
+		cell = nibLoadedCell;
+		self.nibLoadedCell = nil;
     }
-    
-	// Configure the cell.
+	
 	NSManagedObject *managedObject = [fetchedResultsController objectAtIndexPath:indexPath];
-	cell.textLabel.text = [[managedObject valueForKey:@"timeStamp"] description];
+
+	// Configure the cell.	
+	UILabel* nameLabel = (UILabel*)[cell viewWithTag:HISTORY_CELL_TAG_NAME];
+	nameLabel.text = @"TESTING 123";
+	
+	UILabel* dateLabel = (UILabel*)[cell viewWithTag:HISTORY_CELL_TAG_DATE];
+	dateLabel.text = [[managedObject valueForKey:@"timeStamp"] description];
+	
+	UILabel* distanceLabel = (UILabel*)[cell viewWithTag:HISTORY_CELL_TAG_DISTANCE];
+	distanceLabel.text = @"0.0";
+    
+	NSLog(@"Finished setting all labels");
+
 	
     return cell;
 }

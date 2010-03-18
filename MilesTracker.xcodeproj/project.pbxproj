@@ -23,7 +23,13 @@
 		272C8D49114AE84100B641C4 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C8D48114AE84100B641C4 /* ShareViewController.m */; };
 		272C8D54114AE9EE00B641C4 /* TrackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C8D53114AE9EE00B641C4 /* TrackViewController.m */; };
 		272C8DA5114AEEA000B641C4 /* HistoryControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C8DA4114AEEA000B641C4 /* HistoryControllerDelegate.m */; };
-		28860B770F44E54D00985440 /* MilesTracker.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 28860B760F44E54D00985440 /* MilesTracker.xcdatamodel */; };
+		272C8F0D114B470900B641C4 /* HistoryViewTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272C8F0C114B470900B641C4 /* HistoryViewTableCell.xib */; };
+		272C8F6D114D997000B641C4 /* EventEditorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272C8F6C114D997000B641C4 /* EventEditorView.xib */; };
+		272C8F85114DA2FC00B641C4 /* EventEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C8F84114DA2FC00B641C4 /* EventEditorViewController.m */; };
+		272C902D114DDE5300B641C4 /* EventAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C902B114DDE5300B641C4 /* EventAddViewController.m */; };
+		272C9037114DE48600B641C4 /* EventAddView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272C9036114DE48600B641C4 /* EventAddView.xib */; };
+		272C908F1152732C00B641C4 /* MilesTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 272C908E1152732C00B641C4 /* MilesTracker.xcdatamodeld */; };
+		272C90D31152785A00B641C4 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C90D21152785A00B641C4 /* Event.m */; };
 		28860BE50F44EE6400985440 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28860BE40F44EE6400985440 /* CoreData.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		2899E5600DE3E45000AC0155 /* HistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E55F0DE3E45000AC0155 /* HistoryView.xib */; };
@@ -52,6 +58,16 @@
 		272C8D53114AE9EE00B641C4 /* TrackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackViewController.m; sourceTree = "<group>"; };
 		272C8DA3114AEEA000B641C4 /* HistoryControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryControllerDelegate.h; sourceTree = "<group>"; };
 		272C8DA4114AEEA000B641C4 /* HistoryControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryControllerDelegate.m; sourceTree = "<group>"; };
+		272C8F0C114B470900B641C4 /* HistoryViewTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistoryViewTableCell.xib; sourceTree = "<group>"; };
+		272C8F6C114D997000B641C4 /* EventEditorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventEditorView.xib; sourceTree = "<group>"; };
+		272C8F83114DA2FC00B641C4 /* EventEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventEditorViewController.h; sourceTree = "<group>"; };
+		272C8F84114DA2FC00B641C4 /* EventEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventEditorViewController.m; sourceTree = "<group>"; };
+		272C902A114DDE5300B641C4 /* EventAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventAddViewController.h; sourceTree = "<group>"; };
+		272C902B114DDE5300B641C4 /* EventAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventAddViewController.m; sourceTree = "<group>"; };
+		272C9036114DE48600B641C4 /* EventAddView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventAddView.xib; sourceTree = "<group>"; };
+		272C90901152732C00B641C4 /* MilesTracker 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MilesTracker 2.xcdatamodel"; sourceTree = "<group>"; };
+		272C90D11152785A00B641C4 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		272C90D21152785A00B641C4 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		28860B760F44E54D00985440 /* MilesTracker.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = MilesTracker.xcdatamodel; sourceTree = "<group>"; };
 		28860BE40F44EE6400985440 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -102,9 +118,12 @@
 			children = (
 				2899E55F0DE3E45000AC0155 /* HistoryView.xib */,
 				272C8D13114ADD9B00B641C4 /* MainWindow.xib */,
+				272C8F0C114B470900B641C4 /* HistoryViewTableCell.xib */,
 				272C8D21114ADF6F00B641C4 /* TrackView.xib */,
 				272C8D25114ADF7F00B641C4 /* ShareView.xib */,
 				272C8D29114ADF8A00B641C4 /* SettingsView.xib */,
+				272C8F6C114D997000B641C4 /* EventEditorView.xib */,
+				272C9036114DE48600B641C4 /* EventAddView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -120,13 +139,27 @@
 				272C8D3C114AE73300B641C4 /* SettingsViewController.m */,
 				272C8D47114AE84100B641C4 /* ShareViewController.h */,
 				272C8D48114AE84100B641C4 /* ShareViewController.m */,
+				272C8F83114DA2FC00B641C4 /* EventEditorViewController.h */,
+				272C8F84114DA2FC00B641C4 /* EventEditorViewController.m */,
+				272C902A114DDE5300B641C4 /* EventAddViewController.h */,
+				272C902B114DDE5300B641C4 /* EventAddViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		272C8F6F114D9FCD00B641C4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				272C90D11152785A00B641C4 /* Event.h */,
+				272C90D21152785A00B641C4 /* Event.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				272C8F6F114D9FCD00B641C4 /* Models */,
 				272C8F06114B461F00B641C4 /* Controllers */,
 				272C8F05114B45F800B641C4 /* Views */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -154,7 +187,7 @@
 				272C8D1A114ADEA400B641C4 /* share.png */,
 				272C8D18114ADE9B00B641C4 /* settings.png */,
 				272C8D16114ADE8700B641C4 /* history.png */,
-				28860B760F44E54D00985440 /* MilesTracker.xcdatamodel */,
+				272C908E1152732C00B641C4 /* MilesTracker.xcdatamodeld */,
 				8D1107310486CEB800E47090 /* MilesTracker-Info.plist */,
 			);
 			name = Resources;
@@ -229,6 +262,9 @@
 				272C8D22114ADF6F00B641C4 /* TrackView.xib in Resources */,
 				272C8D26114ADF7F00B641C4 /* ShareView.xib in Resources */,
 				272C8D2A114ADF8A00B641C4 /* SettingsView.xib in Resources */,
+				272C8F0D114B470900B641C4 /* HistoryViewTableCell.xib in Resources */,
+				272C8F6D114D997000B641C4 /* EventEditorView.xib in Resources */,
+				272C9037114DE48600B641C4 /* EventAddView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,11 +278,14 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* MilesTrackerAppDelegate.m in Sources */,
 				28C286E10D94DF7D0034E888 /* HistoryTableViewController.m in Sources */,
-				28860B770F44E54D00985440 /* MilesTracker.xcdatamodel in Sources */,
+				272C908F1152732C00B641C4 /* MilesTracker.xcdatamodeld in Sources */,
 				272C8D3D114AE73300B641C4 /* SettingsViewController.m in Sources */,
 				272C8D49114AE84100B641C4 /* ShareViewController.m in Sources */,
 				272C8D54114AE9EE00B641C4 /* TrackViewController.m in Sources */,
 				272C8DA5114AEEA000B641C4 /* HistoryControllerDelegate.m in Sources */,
+				272C8F85114DA2FC00B641C4 /* EventEditorViewController.m in Sources */,
+				272C902D114DDE5300B641C4 /* EventAddViewController.m in Sources */,
+				272C90D31152785A00B641C4 /* Event.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +366,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		272C908E1152732C00B641C4 /* MilesTracker.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				28860B760F44E54D00985440 /* MilesTracker.xcdatamodel */,
+				272C90901152732C00B641C4 /* MilesTracker 2.xcdatamodel */,
+			);
+			currentVersion = 28860B760F44E54D00985440 /* MilesTracker.xcdatamodel */;
+			path = MilesTracker.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
 }
