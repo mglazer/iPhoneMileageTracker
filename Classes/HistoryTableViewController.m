@@ -36,6 +36,8 @@ enum HistoryCellTags {
 
 	// Set up the edit and add buttons.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+	
+	self.navigationItem.title = @"History";
     
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addEvent)];
     self.navigationItem.rightBarButtonItem = addButton;
@@ -129,6 +131,7 @@ enum HistoryCellTags {
 	EventEditorViewController* controller = [[EventEditorViewController alloc] initWithStyle:UITableViewStyleGrouped];
 	
 	controller.event = event;
+	//controller.navigationController = self.navigationController;
 	
 	[self.navigationController pushViewController:controller animated:YES];
 	[controller release];
@@ -190,6 +193,15 @@ enum HistoryCellTags {
 	 [self.navigationController pushViewController:detailViewController animated:YES];
 	 [detailViewController release];
 	 */
+	
+	EventEditorViewController* controller = [[EventEditorViewController alloc] initWithStyle:UITableViewStyleGrouped];
+	
+	Event* event = (Event*)[[self fetchedResultsController] objectAtIndexPath:indexPath];
+	
+	controller.event = event;
+
+	[self.navigationController pushViewController:controller animated:YES];
+	[controller release];
 }
 
 

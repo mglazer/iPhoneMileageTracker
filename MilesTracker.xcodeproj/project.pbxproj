@@ -30,6 +30,16 @@
 		272C9037114DE48600B641C4 /* EventAddView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272C9036114DE48600B641C4 /* EventAddView.xib */; };
 		272C908F1152732C00B641C4 /* MilesTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 272C908E1152732C00B641C4 /* MilesTracker.xcdatamodeld */; };
 		272C90D31152785A00B641C4 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C90D21152785A00B641C4 /* Event.m */; };
+		272C91191152915500B641C4 /* LocationSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272C91181152915500B641C4 /* LocationSelectionView.xib */; };
+		272C911E1152916700B641C4 /* LocationSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C911D1152916700B641C4 /* LocationSelectionViewController.m */; };
+		272C91301152936100B641C4 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272C912F1152936100B641C4 /* MapKit.framework */; };
+		272C922F1154474100B641C4 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 272C922E1154474100B641C4 /* location.png */; };
+		272C92311154475000B641C4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272C92301154475000B641C4 /* CoreLocation.framework */; };
+		277335EB117EABB700DB0A3E /* BSKmlResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 277335E1117EABB700DB0A3E /* BSKmlResult.m */; };
+		277335EC117EABB700DB0A3E /* BSAddressComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 277335E3117EABB700DB0A3E /* BSAddressComponent.m */; };
+		277335ED117EABB700DB0A3E /* BSForwardGeocoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 277335E5117EABB700DB0A3E /* BSForwardGeocoder.m */; };
+		277335EE117EABB700DB0A3E /* BSGoogleV2KmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 277335E7117EABB700DB0A3E /* BSGoogleV2KmlParser.m */; };
+		277335EF117EABB700DB0A3E /* BSGoogleV3KmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 277335E9117EABB700DB0A3E /* BSGoogleV3KmlParser.m */; };
 		28860BE50F44EE6400985440 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28860BE40F44EE6400985440 /* CoreData.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		2899E5600DE3E45000AC0155 /* HistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E55F0DE3E45000AC0155 /* HistoryView.xib */; };
@@ -68,6 +78,22 @@
 		272C90901152732C00B641C4 /* MilesTracker 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MilesTracker 2.xcdatamodel"; sourceTree = "<group>"; };
 		272C90D11152785A00B641C4 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		272C90D21152785A00B641C4 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		272C91181152915500B641C4 /* LocationSelectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocationSelectionView.xib; sourceTree = "<group>"; };
+		272C911C1152916700B641C4 /* LocationSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSelectionViewController.h; sourceTree = "<group>"; };
+		272C911D1152916700B641C4 /* LocationSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSelectionViewController.m; sourceTree = "<group>"; };
+		272C912F1152936100B641C4 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		272C922E1154474100B641C4 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
+		272C92301154475000B641C4 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		277335E1117EABB700DB0A3E /* BSKmlResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSKmlResult.m; sourceTree = "<group>"; };
+		277335E2117EABB700DB0A3E /* BSAddressComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSAddressComponent.h; sourceTree = "<group>"; };
+		277335E3117EABB700DB0A3E /* BSAddressComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSAddressComponent.m; sourceTree = "<group>"; };
+		277335E4117EABB700DB0A3E /* BSForwardGeocoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSForwardGeocoder.h; sourceTree = "<group>"; };
+		277335E5117EABB700DB0A3E /* BSForwardGeocoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSForwardGeocoder.m; sourceTree = "<group>"; };
+		277335E6117EABB700DB0A3E /* BSGoogleV2KmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSGoogleV2KmlParser.h; sourceTree = "<group>"; };
+		277335E7117EABB700DB0A3E /* BSGoogleV2KmlParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSGoogleV2KmlParser.m; sourceTree = "<group>"; };
+		277335E8117EABB700DB0A3E /* BSGoogleV3KmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSGoogleV3KmlParser.h; sourceTree = "<group>"; };
+		277335E9117EABB700DB0A3E /* BSGoogleV3KmlParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSGoogleV3KmlParser.m; sourceTree = "<group>"; };
+		277335EA117EABB700DB0A3E /* BSKmlResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSKmlResult.h; sourceTree = "<group>"; };
 		28860B760F44E54D00985440 /* MilesTracker.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = MilesTracker.xcdatamodel; sourceTree = "<group>"; };
 		28860BE40F44EE6400985440 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -88,6 +114,8 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
 				28860BE50F44EE6400985440 /* CoreData.framework in Frameworks */,
+				272C91301152936100B641C4 /* MapKit.framework in Frameworks */,
+				272C92311154475000B641C4 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +152,7 @@
 				272C8D29114ADF8A00B641C4 /* SettingsView.xib */,
 				272C8F6C114D997000B641C4 /* EventEditorView.xib */,
 				272C9036114DE48600B641C4 /* EventAddView.xib */,
+				272C91181152915500B641C4 /* LocationSelectionView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -133,6 +162,8 @@
 			children = (
 				272C8D52114AE9EE00B641C4 /* TrackViewController.h */,
 				272C8D53114AE9EE00B641C4 /* TrackViewController.m */,
+				272C911C1152916700B641C4 /* LocationSelectionViewController.h */,
+				272C911D1152916700B641C4 /* LocationSelectionViewController.m */,
 				28C286DF0D94DF7D0034E888 /* HistoryTableViewController.h */,
 				28C286E00D94DF7D0034E888 /* HistoryTableViewController.m */,
 				272C8D3B114AE73300B641C4 /* SettingsViewController.h */,
@@ -156,9 +187,27 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		277335DB117EAB6500DB0A3E /* Geocoding */ = {
+			isa = PBXGroup;
+			children = (
+				277335E1117EABB700DB0A3E /* BSKmlResult.m */,
+				277335E2117EABB700DB0A3E /* BSAddressComponent.h */,
+				277335E3117EABB700DB0A3E /* BSAddressComponent.m */,
+				277335E4117EABB700DB0A3E /* BSForwardGeocoder.h */,
+				277335E5117EABB700DB0A3E /* BSForwardGeocoder.m */,
+				277335E6117EABB700DB0A3E /* BSGoogleV2KmlParser.h */,
+				277335E7117EABB700DB0A3E /* BSGoogleV2KmlParser.m */,
+				277335E8117EABB700DB0A3E /* BSGoogleV3KmlParser.h */,
+				277335E9117EABB700DB0A3E /* BSGoogleV3KmlParser.m */,
+				277335EA117EABB700DB0A3E /* BSKmlResult.h */,
+			);
+			name = Geocoding;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				277335DB117EAB6500DB0A3E /* Geocoding */,
 				272C8F6F114D9FCD00B641C4 /* Models */,
 				272C8F06114B461F00B641C4 /* Controllers */,
 				272C8F05114B45F800B641C4 /* Views */,
@@ -183,6 +232,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				272C922E1154474100B641C4 /* location.png */,
 				272C8D1C114ADED000B641C4 /* track.png */,
 				272C8D1A114ADEA400B641C4 /* share.png */,
 				272C8D18114ADE9B00B641C4 /* settings.png */,
@@ -196,6 +246,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				272C92301154475000B641C4 /* CoreLocation.framework */,
+				272C912F1152936100B641C4 /* MapKit.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
@@ -265,6 +317,8 @@
 				272C8F0D114B470900B641C4 /* HistoryViewTableCell.xib in Resources */,
 				272C8F6D114D997000B641C4 /* EventEditorView.xib in Resources */,
 				272C9037114DE48600B641C4 /* EventAddView.xib in Resources */,
+				272C91191152915500B641C4 /* LocationSelectionView.xib in Resources */,
+				272C922F1154474100B641C4 /* location.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +340,12 @@
 				272C8F85114DA2FC00B641C4 /* EventEditorViewController.m in Sources */,
 				272C902D114DDE5300B641C4 /* EventAddViewController.m in Sources */,
 				272C90D31152785A00B641C4 /* Event.m in Sources */,
+				272C911E1152916700B641C4 /* LocationSelectionViewController.m in Sources */,
+				277335EB117EABB700DB0A3E /* BSKmlResult.m in Sources */,
+				277335EC117EABB700DB0A3E /* BSAddressComponent.m in Sources */,
+				277335ED117EABB700DB0A3E /* BSForwardGeocoder.m in Sources */,
+				277335EE117EABB700DB0A3E /* BSGoogleV2KmlParser.m in Sources */,
+				277335EF117EABB700DB0A3E /* BSGoogleV3KmlParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

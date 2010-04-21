@@ -7,12 +7,14 @@
 //
 
 #import "EventEditorViewController.h"
+#import "LocationSelectionViewController.h"
 #import "Event.h"
 
 
 @implementation EventEditorViewController
 
-@synthesize event, navigationController;
+@synthesize event;
+@synthesize editingStartLocation;
 
 /*
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -29,6 +31,12 @@
 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+	UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"History" style:UIBarButtonItemStyleBordered	target:self action:@selector(cancel)];
+	self.navigationItem.backBarButtonItem = cancelButtonItem;
+	
+	UIBarButtonItem *acceptButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
+	self.navigationItem.rightBarButtonItem = acceptButtonItem;
 	
 	UITableView* tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]
 														  style:UITableViewStyleGrouped];
@@ -223,9 +231,52 @@ enum SectionDateCategoryRows {
 	return formatter;
 }
 
+- (void)didSelectRowInDistanceSection:(NSUInteger)row {
+}
+
+- (void)didSelectRowInNameSection:(NSUInteger)row {
+	
+	UIViewController* nextController = nil;
+	LocationSelectionViewController* locController;
+	
+	switch ( row ) {
+		case SECTION_NAME_START_END_START:
+			locController = [[LocationSelectionViewController alloc] initWithNibName:@"LocationSelectionView" bundle:nil];
+			locController.delegate = self;
+			self.editingStartLocation = YES;
+			nextController = locController;
+			break;
+		case SECTION_NAME_START_END_END:
+			locController = [[LocationSelectionViewController alloc] initWithNibName:@"LocationSelectionView" bundle:nil];
+			locController.delegate = self;
+			self.editingStartLocation = NO;
+			nextController = locController;
+			break;
+	}
+	
+	UINavigationController* baseController = [[UINavigationController alloc] initWithRootViewController:nextController];
+	//[self.navigationController pushViewController:nextController animated:YES];
+	[self presentModalViewController:baseController	animated:YES];
+
+	
+	[nextController release];
+	[baseController release];
+	
+}
+
+- (void)didSelectRowInDateSection:(NSUInteger)row {
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	switch ( indexPath.section ) {
 		case SECTION_DISTANCE:
+			[self didSelectRowInDistanceSection:indexPath.row];
+			break;
+		case SECTION_NAME_START_END:
+			[self didSelectRowInNameSection:indexPath.row];
+			break;
+		case SECTION_DATE_CATEGORY:
+			[self didSelectRowInDateSection:indexPath.row];
 			break;
 	}
     // Navigation logic may go here. Create and push another view controller.
@@ -233,6 +284,58 @@ enum SectionDateCategoryRows {
 	// [self.navigationController pushViewController:anotherViewController];
 	// [anotherViewController release];
 }
+
+
+#pragma mark -
+#pragma mark LocationSelectionViewDelegate methods
+
+- (void)didSelectLocation:(NSString*)name withCoordinate:(CLLocationCoordinate2D)coordinate {
+	//[self dismissModalViewControllerAnimated:YES];
+	
+	NSLog(@"User selected location %f:%f at %s", coordinate.latitude, coordinate.longitude, name);
+	if ( self.editingStartLocation ) {
+		self.event.startLocationLat = [NSNumber numberWithDouble:coordinate.latitude];
+		self.event.startLocationLon = [NSNumber numberWithDouble:coordinate.longitude];
+		self.event.startLocationDescription = name;
+		NSLog(@"Editing start location");
+	} else {
+		self.event.endLocationLat = [NSNumber numberWithDouble:coordinate.latitude];
+		self.event.endLocationLon = [NSNumber numberWithDouble:coordinate.longitude];
+		self.event.endLocationDescription = name;
+		NSLog(@"Editing end location");
+	}
+	
+	
+}
+
+- (void)didAcceptLocationSelection {
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)didCancelLocationSelection {
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+
+#pragma mark -
+#pragma mark Saving and cancelling
+
+- (void)save {
+	NSError* error;
+	if ( ![event.managedObjectContext save:&error] ) {
+		// TODO: Replace with better error handling code
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		
+		abort();
+	}
+	
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)cancel {
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
 
 
 /*
@@ -277,7 +380,6 @@ enum SectionDateCategoryRows {
 
 - (void)dealloc {
 	[event release];
-	[navigationController release];
     [super dealloc];
 }
 

@@ -8,19 +8,30 @@
 
 #import <UIKit/UIKit.h>
 
+#import "LocationSelectionViewController.h"
+
 @class Event;
 
-@interface EventEditorViewController : UITableViewController {
+@interface EventEditorViewController : UITableViewController <LocationSelectionViewDelegate> {
 	Event* event;
-	UINavigationController* navigationController;
+	BOOL editingStartLocation;
+//	UINavigationController* navigationController;
 }
 
 @property (nonatomic,retain) Event* event;
-@property (nonatomic,retain) UINavigationController* navigationController;
+@property BOOL editingStartLocation;
+//@property (nonatomic,retain) UINavigationController* navigationController;
 
 - (UITableViewCell*)cellForDistanceSection:(UITableViewCell*)cell withRow:(NSUInteger)row;
 - (UITableViewCell*)cellForNameSection:(UITableViewCell*)cell withRow:(NSUInteger)row;
 - (UITableViewCell*)cellForDateSection:(UITableViewCell*)cell withRow:(NSUInteger)row;
+
+- (void)didSelectRowInDateSection:(NSUInteger)row;
+- (void)didSelectRowInDistanceSection:(NSUInteger)row;
+- (void)didSelectRowInNameSection:(NSUInteger)row;
+
+- (void)save;
+- (void)cancel;
 
 - (NSDateFormatter*)createDateFormatter;
 
