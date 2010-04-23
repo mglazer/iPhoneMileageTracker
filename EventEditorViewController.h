@@ -15,10 +15,12 @@
 @interface EventEditorViewController : UITableViewController <LocationSelectionViewDelegate> {
 	Event* event;
 	BOOL editingStartLocation;
+	UITableView* tableView;
 //	UINavigationController* navigationController;
 }
 
 @property (nonatomic,retain) Event* event;
+@property (nonatomic,retain) UITableView* tableView;
 @property BOOL editingStartLocation;
 //@property (nonatomic,retain) UINavigationController* navigationController;
 

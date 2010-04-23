@@ -15,6 +15,7 @@
 
 @synthesize event;
 @synthesize editingStartLocation;
+@synthesize tableView;
 
 /*
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -38,7 +39,7 @@
 	UIBarButtonItem *acceptButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
 	self.navigationItem.rightBarButtonItem = acceptButtonItem;
 	
-	UITableView* tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]
+	tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]
 														  style:UITableViewStyleGrouped];
 	tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
 	tableView.delegate = self;
@@ -46,9 +47,7 @@
 	
 	[tableView reloadData];
 	
-	self.view = tableView;
-	[tableView release];
-	
+	self.view = tableView;	
 }
 
 
@@ -289,7 +288,7 @@ enum SectionDateCategoryRows {
 #pragma mark -
 #pragma mark LocationSelectionViewDelegate methods
 
-- (void)didSelectLocation:(NSString*)name withCoordinate:(CLLocationCoordinate2D)coordinate {
+- (void)didAcceptLocationSelection:(CLLocationCoordinate2D)coordinate withAddress:(NSString*)name {
 	//[self dismissModalViewControllerAnimated:YES];
 	
 	NSLog(@"User selected location %f:%f at %s", coordinate.latitude, coordinate.longitude, name);
@@ -298,19 +297,23 @@ enum SectionDateCategoryRows {
 		self.event.startLocationLon = [NSNumber numberWithDouble:coordinate.longitude];
 		self.event.startLocationDescription = name;
 		NSLog(@"Editing start location");
+		
 	} else {
 		self.event.endLocationLat = [NSNumber numberWithDouble:coordinate.latitude];
 		self.event.endLocationLon = [NSNumber numberWithDouble:coordinate.longitude];
 		self.event.endLocationDescription = name;
+		
 		NSLog(@"Editing end location");
 	}
 	
-	
-}
-
-- (void)didAcceptLocationSelection {
+	[tableView reloadData];	
 	[self dismissModalViewControllerAnimated:YES];
 }
+
+- (bool)isStartingPoint {
+	return self.editingStartLocation;
+}
+
 
 - (void)didCancelLocationSelection {
 	[self dismissModalViewControllerAnimated:YES];
@@ -380,6 +383,7 @@ enum SectionDateCategoryRows {
 
 - (void)dealloc {
 	[event release];
+	[tableView release];
     [super dealloc];
 }
 

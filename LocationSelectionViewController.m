@@ -9,17 +9,24 @@
 #import "LocationSelectionViewController.h"
 #import "CoreLocation/CLLocation.h"
 #import "CoreLocation/CLLocationManager.h"
+#import "UITableAlert.h"
+#import "UITableAlertDataSource.h"
+#import "EventLocationMapAnnotation.h"
 
 
 @implementation LocationSelectionViewController
 
 @synthesize mapView;
 @synthesize delegate;
-@synthesize currentLocation;
 @synthesize locationManager;
 @synthesize forwardGeocoder;
 @synthesize addressSearchBar;
-@synthesize lastResults;
+@synthesize existingAddress;
+@synthesize existingCoordinate;
+@synthesize currentAnnotation;
+
+@synthesize selectedAddress;
+@synthesize selectedCoordinate;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -63,12 +70,37 @@
 	[self switchToNavigationMapButtons];
 	
 	self.navigationItem.title = @"Choose Location";
-	
-	self.currentLocation = [[CLLocation alloc] initWithLatitude:0.0 longitude:0.0];
-	
+		
 	self.locationManager = [[[CLLocationManager alloc] init] autorelease];
 	self.locationManager.delegate = self;
+	
+	if ( self.existingAddress != nil ) {
+		[self addAnnotationAtLocation:self.existingCoordinate withAddress:self.existingAddress];
 
+
+	}
+}
+
+- (void)addAnnotationAtLocation:(CLLocationCoordinate2D)coordinate withAddress:(NSString*)address {
+	
+	if ( self.currentAnnotation != nil ) {
+		[mapView removeAnnotation:self.currentAnnotation];
+	}
+	
+	EventLocationMapAnnotation* annotation = [EventLocationMapAnnotation annotationWithCoordinate:coordinate];
+	annotation.address = address;
+		
+	MKCoordinateRegion region;
+	region.center = coordinate;
+	region.span.longitudeDelta = 0.15f;
+	region.span.latitudeDelta = 0.15f;
+	
+	[self.mapView setRegion:region animated:YES];
+	
+	
+	[self.mapView addAnnotation:annotation];
+		
+	self.addressSearchBar.text = address;
 }
 
 /*
@@ -88,7 +120,7 @@
 #pragma mark -
 #pragma mark Actions
 - (void)accept {
-	[self.delegate didAcceptLocationSelection];
+	[self.delegate didAcceptLocationSelection:self.selectedCoordinate withAddress:self.selectedAddress];
 }
 
 - (void)cancel {
@@ -149,10 +181,10 @@
 	didUpdateToLocation:(CLLocation *)newLocation 
 		   fromLocation:(CLLocation *)oldLocation {
 	
-	[currentLocation release];
-	currentLocation = newLocation;
 	
-	[self.delegate didSelectLocation:@"Some location" withCoordinate:currentLocation.coordinate];
+	// todo: geocode this result
+	self.selectedCoordinate = newLocation.coordinate;
+	[self addAnnotationAtLocation:self.selectedCoordinate withAddress:@"Soem location"];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
@@ -164,18 +196,13 @@
 
 -(void) displayGeocodingResultOptions:(NSArray*)results {
 
-	UIAlertView* alert = [[UIAlertView alloc] init];
-	
+	UITableAlert* alert = [[UITableAlert alloc] initWithTitle:@"Did you mean:" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
 	alert.delegate = self;
-	alert.title = @"Choose address";
+	alert.alertDelegate = self;
 	
-	int numResults = [results count];
-	for ( int i = 0; i < numResults; ++i ) {
-		BSKmlResult* place = [results objectAtIndex:i];
-		[alert addButtonWithTitle:place.address];
-	}
 	
 	[alert show];
+	[alert release];
 
 }
 
@@ -189,22 +216,52 @@
 		name = addressSearchBar.text;
 	}
 	
-	[self.delegate didSelectLocation:name withCoordinate:[place coordinate]];
+	self.selectedAddress = name;
+	self.selectedCoordinate = [place coordinate];
+	[self addAnnotationAtLocation:place.coordinate withAddress:name];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if ( lastResults && [lastResults count] > buttonIndex ) {
-		BSKmlResult* place = [lastResults objectAtIndex:buttonIndex];
-		[self updateLocation:place];
+	
+
+
+#pragma mark -
+#pragma mark UITableAlert
+
+- (void)didPresentAlertView:(UIAlertView *)alertView {
+	if ( forwardGeocoder.results ) {
+		NSMutableArray* results = [[NSMutableArray alloc] init];
+		
+		int resultSize = [forwardGeocoder.results count];
+		for ( int i = 0; i < resultSize; ++i ) {
+			BSKmlResult* place = [forwardGeocoder.results objectAtIndex:i];
+			[results addObject:place.address];
+		}
+		
+		id data = [[UITableAlertDataSource alloc] initWithArray:results];	
+		((UITableAlert *)alertView).tableData = data;
+		
+		[results release];
 	}
 }
+
+
+-(void)tableAlert:(UITableAlert*)tableAlert didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
+	int row = indexPath.row;
+	if ( forwardGeocoder.results && [forwardGeocoder.results count] > row ) {
+		BSKmlResult* place = [forwardGeocoder.results objectAtIndex:row];
+		[self updateLocation:place];
+	}
+	
+	[tableAlert dismissWithClickedButtonIndex:0 animated:YES];
+	
+}
+
 
 
 
 -(void)forwardGeocoderFoundLocation {
 	if(forwardGeocoder.status == G_GEO_SUCCESS)
 	{
-		lastResults = forwardGeocoder.results;
 		int searchResults = [forwardGeocoder.results count];
 		
 		// Dismiss the keyboard
@@ -232,6 +289,31 @@
 
 
 #pragma mark -
+#pragma mark MKMapViewDelegate
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+	MKPinAnnotationView* view = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"address"];
+	
+	if ( view == nil ) {
+		view = [[[MKPinAnnotationView alloc]
+				 initWithAnnotation:annotation reuseIdentifier:@"address"] autorelease];
+	}
+	
+
+	if ( [self.delegate isStartingPoint] ) {
+		[view setPinColor:MKPinAnnotationColorGreen];
+	} else {
+		[view setPinColor:MKPinAnnotationColorRed];
+	}
+	
+	[view setCanShowCallout:YES];
+	[view setAnimatesDrop:YES];
+	
+	return view;
+}
+
+
+#pragma mark -
 #pragma mark Deallocation 
 
 - (void)didReceiveMemoryWarning {
@@ -250,13 +332,16 @@
 - (void)dealloc {
 	[addressSearchBar release];
 	[mapView release];
-	[currentLocation release];
 	
 	[cancelButton release];
 	[acceptButton release];
 	[cancelMapEntryButton release];
 	
 	[forwardGeocoder release];
+	[existingAddress release];
+	[currentAnnotation release];
+	
+	[selectedAddress release];
 	
     [super dealloc];
 }

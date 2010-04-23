@@ -40,6 +40,9 @@
 		277335ED117EABB700DB0A3E /* BSForwardGeocoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 277335E5117EABB700DB0A3E /* BSForwardGeocoder.m */; };
 		277335EE117EABB700DB0A3E /* BSGoogleV2KmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 277335E7117EABB700DB0A3E /* BSGoogleV2KmlParser.m */; };
 		277335EF117EABB700DB0A3E /* BSGoogleV3KmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 277335E9117EABB700DB0A3E /* BSGoogleV3KmlParser.m */; };
+		2773371111814E5500DB0A3E /* UITableAlertDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2773370911814E5500DB0A3E /* UITableAlertDataSource.m */; };
+		2773371211814E5500DB0A3E /* UITableAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 2773370B11814E5500DB0A3E /* UITableAlert.m */; };
+		2773376E1182235800DB0A3E /* EventLocationMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2773376D1182235800DB0A3E /* EventLocationMapAnnotation.m */; };
 		28860BE50F44EE6400985440 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28860BE40F44EE6400985440 /* CoreData.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		2899E5600DE3E45000AC0155 /* HistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E55F0DE3E45000AC0155 /* HistoryView.xib */; };
@@ -94,6 +97,12 @@
 		277335E8117EABB700DB0A3E /* BSGoogleV3KmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSGoogleV3KmlParser.h; sourceTree = "<group>"; };
 		277335E9117EABB700DB0A3E /* BSGoogleV3KmlParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSGoogleV3KmlParser.m; sourceTree = "<group>"; };
 		277335EA117EABB700DB0A3E /* BSKmlResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSKmlResult.h; sourceTree = "<group>"; };
+		2773370911814E5500DB0A3E /* UITableAlertDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITableAlertDataSource.m; sourceTree = "<group>"; };
+		2773370A11814E5500DB0A3E /* UITableAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableAlert.h; sourceTree = "<group>"; };
+		2773370B11814E5500DB0A3E /* UITableAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITableAlert.m; sourceTree = "<group>"; };
+		2773370C11814E5500DB0A3E /* UITableAlertDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableAlertDataSource.h; sourceTree = "<group>"; };
+		2773376C1182235800DB0A3E /* EventLocationMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLocationMapAnnotation.h; sourceTree = "<group>"; };
+		2773376D1182235800DB0A3E /* EventLocationMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventLocationMapAnnotation.m; sourceTree = "<group>"; };
 		28860B760F44E54D00985440 /* MilesTracker.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = MilesTracker.xcdatamodel; sourceTree = "<group>"; };
 		28860BE40F44EE6400985440 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -129,6 +138,8 @@
 				1D3623250D0F684500981E51 /* MilesTrackerAppDelegate.m */,
 				272C8DA3114AEEA000B641C4 /* HistoryControllerDelegate.h */,
 				272C8DA4114AEEA000B641C4 /* HistoryControllerDelegate.m */,
+				2773376C1182235800DB0A3E /* EventLocationMapAnnotation.h */,
+				2773376D1182235800DB0A3E /* EventLocationMapAnnotation.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -204,9 +215,21 @@
 			name = Geocoding;
 			sourceTree = "<group>";
 		};
+		2773370411814E3200DB0A3E /* UITableAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				2773370911814E5500DB0A3E /* UITableAlertDataSource.m */,
+				2773370A11814E5500DB0A3E /* UITableAlert.h */,
+				2773370B11814E5500DB0A3E /* UITableAlert.m */,
+				2773370C11814E5500DB0A3E /* UITableAlertDataSource.h */,
+			);
+			name = UITableAlertView;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				2773370411814E3200DB0A3E /* UITableAlertView */,
 				277335DB117EAB6500DB0A3E /* Geocoding */,
 				272C8F6F114D9FCD00B641C4 /* Models */,
 				272C8F06114B461F00B641C4 /* Controllers */,
@@ -346,6 +369,9 @@
 				277335ED117EABB700DB0A3E /* BSForwardGeocoder.m in Sources */,
 				277335EE117EABB700DB0A3E /* BSGoogleV2KmlParser.m in Sources */,
 				277335EF117EABB700DB0A3E /* BSGoogleV3KmlParser.m in Sources */,
+				2773371111814E5500DB0A3E /* UITableAlertDataSource.m in Sources */,
+				2773371211814E5500DB0A3E /* UITableAlert.m in Sources */,
+				2773376E1182235800DB0A3E /* EventLocationMapAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
