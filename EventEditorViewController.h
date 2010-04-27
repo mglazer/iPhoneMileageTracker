@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 
 #import "LocationSelectionViewController.h"
+#import "DatePickerViewController.h"
 
 @class Event;
 
-@interface EventEditorViewController : UITableViewController <LocationSelectionViewDelegate> {
+@interface EventEditorViewController : UITableViewController <LocationSelectionViewDelegate,DatePickerViewControllerDelegate> {
 	Event* event;
 	BOOL editingStartLocation;
 	UITableView* tableView;
@@ -35,6 +36,5 @@
 - (void)save;
 - (void)cancel;
 
-- (NSDateFormatter*)createDateFormatter;
 
 @end

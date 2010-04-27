@@ -103,6 +103,13 @@
 	self.addressSearchBar.text = address;
 }
 
+- (void)findGeocodedSelectedLocation:(CLLocationCoordinate2D)coordinate {
+	MKReverseGeocoder* reverseGeocoder = [[[MKReverseGeocoder alloc] initWithCoordinate:coordinate] autorelease];
+	reverseGeocoder.delegate = self;
+	[reverseGeocoder start];
+	NSLog(@"Geocoding");
+}
+
 /*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -184,7 +191,8 @@
 	
 	// todo: geocode this result
 	self.selectedCoordinate = newLocation.coordinate;
-	[self addAnnotationAtLocation:self.selectedCoordinate withAddress:@"Soem location"];
+	[self findGeocodedSelectedLocation:self.selectedCoordinate];
+	[self addAnnotationAtLocation:self.selectedCoordinate withAddress:@"Searching for address..."];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
@@ -257,7 +265,8 @@
 }
 
 
-
+#pragma mark -
+#pragma mark BSForwardGeocoder
 
 -(void)forwardGeocoderFoundLocation {
 	if(forwardGeocoder.status == G_GEO_SUCCESS)
@@ -285,6 +294,28 @@
 
 -(void)forwardGeocoderError:(NSString *)errorMessage {
 	NSLog(errorMessage);
+}
+
+#pragma mark -
+#pragma mark MKReverseGeocoder
+
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error {
+	
+}
+
+
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark {
+	
+	NSString* address = [NSString stringWithFormat:@"%s %s %s %s %s %s %s %s %s", 
+		placemark.thoroughfare, placemark.subThoroughfare, placemark.locality,
+		placemark.subLocality, placemark.administrativeArea, placemark.subAdministrativeArea,
+						 placemark.postalCode, placemark.country, placemark.countryCode];
+	
+	NSLog(@"Current address: %@", address);
+	self.selectedAddress = address;
+	[self addAnnotationAtLocation:self.selectedCoordinate withAddress:address];
+	
+	[address release];
 }
 
 
@@ -342,7 +373,7 @@
 	[currentAnnotation release];
 	
 	[selectedAddress release];
-	
+		
     [super dealloc];
 }
 

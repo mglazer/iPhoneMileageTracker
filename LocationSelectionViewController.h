@@ -21,7 +21,7 @@
 @class BSForwardGeocoder;
 @class EventLocationMapAnnotation;
 
-@interface LocationSelectionViewController : UIViewController <MKMapViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate, BSForwardGeocoderDelegate, UIAlertViewDelegate, UITableAlertDelegate> {
+@interface LocationSelectionViewController : UIViewController <MKMapViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate, BSForwardGeocoderDelegate, UIAlertViewDelegate, UITableAlertDelegate, MKReverseGeocoderDelegate> {
 	MKMapView* mapView;
 	id<LocationSelectionViewDelegate> delegate;
 	CLLocationManager* locationManager;

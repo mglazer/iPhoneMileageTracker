@@ -6,10 +6,39 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
+#import "DatePickerViewController.h"
+
 #import "ShareViewController.h"
+
+#import "MilesTracker.h"
 
 
 @implementation ShareViewController
+
+@synthesize nibLoadedCell;
+
+enum TableViewSections {
+	SECTION_DATES,
+	SECTION_FORMAT,
+	SECTION_SEND,
+	SECTION_COUNT
+};
+
+enum DatesSectionRows {
+	SECTION_DATES_START,
+	SECTION_DATES_END,
+	SECTION_DATES_COUNT
+};
+
+enum FormatSectionRows {
+	SECTION_FORMAT_FORMAT,
+	SECTION_FORMAT_COUNT
+};
+
+enum SendSectionRows {
+	SECTION_SEND_SEND,
+	SECTION_SEND_COUNT
+};
 
 /*
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -20,14 +49,21 @@
 }
 */
 
-/*
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+	
+
+	startDate_ = [[NSDate date] retain];
+	endDate_ = [[NSDate date] retain];
+	canSendEmail_ =  [MFMailComposeViewController canSendMail];
+		
 }
-*/
+
 
 /*
 - (void)viewWillAppear:(BOOL)animated {
@@ -74,29 +110,167 @@
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return SECTION_COUNT;
 }
 
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+	switch ( section ) {
+		case SECTION_DATES:
+			return SECTION_DATES_COUNT;
+		case SECTION_FORMAT:
+			return SECTION_FORMAT_COUNT;
+		case SECTION_SEND:
+			return SECTION_SEND_COUNT;
+		default: 
+			return 0;
+	}
+	
+}
+
+
+- (UITableViewCell *)cellForDatesSection:(UITableView*)tableView withRow:(NSUInteger)row {
+	static NSString *CellIdentifier = @"DateCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
+    }
+	
+	NSDateFormatter* formatter = [MilesTracker createDateFormatter];
+	
+
+	switch ( row ) {
+		case SECTION_DATES_START:
+			[cell detailTextLabel].text = [formatter stringFromDate:startDate_];
+			[cell textLabel].text = @"Start";
+			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+			break;
+		case SECTION_DATES_END:
+			[cell detailTextLabel].text = [formatter stringFromDate:endDate_];
+			[cell textLabel].text = @"End";
+			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+			break;
+	}
+	
+	[formatter release];
+	//[today release];
+	
+	return cell;
+}
+
+- (UITableViewCell *)cellForFormatSection:(UITableView*)tableView withRow:(NSUInteger)row {
+	static NSString *CellIdentifier = @"ToCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
+    }
+	
+	format_ = @"CSV";
+	
+	[cell detailTextLabel].text = format_;
+	[cell textLabel].text = @"Format";
+	cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+	
+	return cell;
+}
+
+- (UITableViewCell *)cellForSendSection:(UITableView*)tableView withRow:(NSUInteger)row {
+	static NSString *CellIdentifier = @"SendCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		[[NSBundle mainBundle] loadNibNamed:@"SendTableViewCell" owner:self options:nil];
+		cell = nibLoadedCell;
+		self.nibLoadedCell = nil;
+    }
+	
+	return cell;
 }
 
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
-    // Set up the cell...
+	UITableViewCell* cell = nil;
+
+    NSLog(@"Laying out %d:%d", indexPath.section, indexPath.row);
+    switch ( indexPath.section ) {
+		case SECTION_DATES:
+			cell = [self cellForDatesSection:tableView withRow:indexPath.row];
+			break;
+		case SECTION_FORMAT:
+			cell = [self cellForFormatSection:tableView withRow:indexPath.row];
+			break;
+		case SECTION_SEND:
+			cell = [self cellForSendSection:tableView withRow:indexPath.row];
+			break;
+	}
 	
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowInDatesSection:(NSUInteger)row {
+	
+	DatePickerViewController* nextController = [[DatePickerViewController alloc] initWithNibName:@"DatePickerView" bundle:nil];
+	nextController.delegate = self;
+	
+	
+	UINavigationController* baseController = [[UINavigationController alloc] initWithRootViewController:nextController];
+	
+	[self presentModalViewController:baseController	animated:YES];
+
+	
+	switch ( row ) {
+		case SECTION_DATES_START:
+			nextController.date = startDate_;
+			editingStartDate_ = YES;
+			break;
+		case SECTION_DATES_END:
+			nextController.date = endDate_;
+			editingStartDate_ = NO;
+			break;
+	}
+	
+		
+	[nextController release];	
+	[baseController release];
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowInFormatSection:(NSUInteger)row {
+	
+}
+
+
+- (void)sendMail {
+
+	MFMailComposeViewController* composer = [[MFMailComposeViewController alloc] init];
+	
+	NSDateFormatter* formatter = [MilesTracker createDateFormatter];
+	
+	NSString* startDateFormatted = [formatter stringFromDate:startDate_];
+	NSString* endDateFormatted = [formatter stringFromDate:endDate_];
+	
+	[composer setSubject:[NSString stringWithFormat:@"Tracked mileage from %@-%@", startDateFormatted, endDateFormatted]];
+	[composer setMessageBody:@"Hello world" isHTML:NO];
+	composer.mailComposeDelegate = self;
+	
+	[self presentModalViewController:composer animated:YES];
+	
+	[composer release];
+	[formatter release];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowInSendSection:(NSUInteger)row {
+	
+	if ( canSendEmail_ ) {
+		[self sendMail];
+	}
+	
+	
 }
 
 
@@ -105,6 +279,47 @@
 	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
 	// [self.navigationController pushViewController:anotherViewController];
 	// [anotherViewController release];
+	
+	switch ( indexPath.section ) {
+		case SECTION_DATES:
+			[self tableView:tableView didSelectRowInDatesSection:indexPath.row];
+			break;
+		case SECTION_FORMAT:
+			[self tableView:tableView didSelectRowInFormatSection:indexPath.row];
+			break;
+		case SECTION_SEND:
+			[self tableView:tableView didSelectRowInSendSection:indexPath.row];
+			break;
+	}
+	
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	if ( section == 0 ) {
+		UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 140)];
+		
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10,0,130,22)];
+		label.backgroundColor=[UIColor clearColor];
+		label.text = @"Share Events";
+		
+		label.shadowColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+		[topView addSubview:label];
+		
+		return topView;
+		
+	}
+	
+	return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+	
+	if ( section == 0 ) {
+		return 30;
+	}
+	
+	return 0;
+	
 }
 
 
@@ -147,9 +362,43 @@
 }
 */
 
+#pragma mark -
+#pragma mark MFMailComposeViewControllerDelegate
+- (void)mailComposeController:(MFMailComposeViewController*)controller 
+		  didFinishWithResult:(MFMailComposeResult)result 
+						error:(NSError*)error {
+	[self becomeFirstResponder];
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+
+#pragma mark -
+#pragma mark DatePickerViewControllerDelegate
+
+-(void) datePickerAcceptedDateSelection:(NSDate*)date {
+	if ( editingStartDate_ ) {
+		[startDate_ release];
+		startDate_ = [date retain];
+	} else {
+		[endDate_ release];
+		endDate_ = [date retain];
+	}
+	
+	[self.tableView reloadData];
+	[self becomeFirstResponder];
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+-(void) datePickerCancelDateSelection {
+	[self becomeFirstResponder];
+	[self dismissModalViewControllerAnimated:YES];
+}
 
 - (void)dealloc {
     [super dealloc];
+	
+	[startDate_ release];
+	[endDate_ release];
 }
 
 

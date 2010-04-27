@@ -7,10 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
+@protocol DatePickerViewControllerDelegate;
 
-@interface ShareViewController : UITableViewController {
-
+@interface ShareViewController : UITableViewController<MFMailComposeViewControllerDelegate,DatePickerViewControllerDelegate> {
+	UITableViewCell* nibLoadedCell;
+	
+	bool canSendEmail_;
+	
+	NSDate* startDate_;
+	NSDate* endDate_;
+	NSString* format_;
+	
+	bool editingStartDate_;
 }
+
+@property (nonatomic,retain) IBOutlet UITableViewCell* nibLoadedCell;
+
 
 @end

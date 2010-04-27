@@ -43,6 +43,15 @@
 		2773371111814E5500DB0A3E /* UITableAlertDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2773370911814E5500DB0A3E /* UITableAlertDataSource.m */; };
 		2773371211814E5500DB0A3E /* UITableAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 2773370B11814E5500DB0A3E /* UITableAlert.m */; };
 		2773376E1182235800DB0A3E /* EventLocationMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2773376D1182235800DB0A3E /* EventLocationMapAnnotation.m */; };
+		2773387D1182615300DB0A3E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2773387C1182615300DB0A3E /* MessageUI.framework */; };
+		2773388511826BB600DB0A3E /* MilesTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 2773388411826BB600DB0A3E /* MilesTracker.m */; };
+		27733898118271F900DB0A3E /* SendTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27733897118271F900DB0A3E /* SendTableViewCell.xib */; };
+		2773389E1183AB8300DB0A3E /* envelope.png in Resources */ = {isa = PBXBuildFile; fileRef = 2773389D1183AB8300DB0A3E /* envelope.png */; };
+		2773393E1185346000DB0A3E /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2773393C1185346000DB0A3E /* DatePickerViewController.m */; };
+		2773393F1185346000DB0A3E /* DatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2773393D1185346000DB0A3E /* DatePickerView.xib */; };
+		27F7E95A1186AA4D00B08DB5 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F7E9591186AA4D00B08DB5 /* libstdc++.6.dylib */; };
+		27F7E95D1186AA7300B08DB5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F7E95C1186AA7300B08DB5 /* QuartzCore.framework */; };
+		27F7E9691186AB4B00B08DB5 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F7E9681186AB4B00B08DB5 /* libsqlite3.dylib */; };
 		28860BE50F44EE6400985440 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28860BE40F44EE6400985440 /* CoreData.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		2899E5600DE3E45000AC0155 /* HistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E55F0DE3E45000AC0155 /* HistoryView.xib */; };
@@ -103,6 +112,17 @@
 		2773370C11814E5500DB0A3E /* UITableAlertDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableAlertDataSource.h; sourceTree = "<group>"; };
 		2773376C1182235800DB0A3E /* EventLocationMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLocationMapAnnotation.h; sourceTree = "<group>"; };
 		2773376D1182235800DB0A3E /* EventLocationMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventLocationMapAnnotation.m; sourceTree = "<group>"; };
+		2773387C1182615300DB0A3E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		2773388311826BB600DB0A3E /* MilesTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilesTracker.h; sourceTree = "<group>"; };
+		2773388411826BB600DB0A3E /* MilesTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MilesTracker.m; sourceTree = "<group>"; };
+		27733897118271F900DB0A3E /* SendTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendTableViewCell.xib; sourceTree = "<group>"; };
+		2773389D1183AB8300DB0A3E /* envelope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = envelope.png; sourceTree = "<group>"; };
+		2773393B1185346000DB0A3E /* DatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerViewController.h; sourceTree = "<group>"; };
+		2773393C1185346000DB0A3E /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerViewController.m; sourceTree = "<group>"; };
+		2773393D1185346000DB0A3E /* DatePickerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DatePickerView.xib; sourceTree = "<group>"; };
+		27F7E9591186AA4D00B08DB5 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
+		27F7E95C1186AA7300B08DB5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		27F7E9681186AB4B00B08DB5 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		28860B760F44E54D00985440 /* MilesTracker.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = MilesTracker.xcdatamodel; sourceTree = "<group>"; };
 		28860BE40F44EE6400985440 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -125,6 +145,10 @@
 				28860BE50F44EE6400985440 /* CoreData.framework in Frameworks */,
 				272C91301152936100B641C4 /* MapKit.framework in Frameworks */,
 				272C92311154475000B641C4 /* CoreLocation.framework in Frameworks */,
+				2773387D1182615300DB0A3E /* MessageUI.framework in Frameworks */,
+				27F7E95A1186AA4D00B08DB5 /* libstdc++.6.dylib in Frameworks */,
+				27F7E95D1186AA7300B08DB5 /* QuartzCore.framework in Frameworks */,
+				27F7E9691186AB4B00B08DB5 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +164,8 @@
 				272C8DA4114AEEA000B641C4 /* HistoryControllerDelegate.m */,
 				2773376C1182235800DB0A3E /* EventLocationMapAnnotation.h */,
 				2773376D1182235800DB0A3E /* EventLocationMapAnnotation.m */,
+				2773388311826BB600DB0A3E /* MilesTracker.h */,
+				2773388411826BB600DB0A3E /* MilesTracker.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -164,6 +190,8 @@
 				272C8F6C114D997000B641C4 /* EventEditorView.xib */,
 				272C9036114DE48600B641C4 /* EventAddView.xib */,
 				272C91181152915500B641C4 /* LocationSelectionView.xib */,
+				27733897118271F900DB0A3E /* SendTableViewCell.xib */,
+				2773393D1185346000DB0A3E /* DatePickerView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -181,6 +209,8 @@
 				272C8D3C114AE73300B641C4 /* SettingsViewController.m */,
 				272C8D47114AE84100B641C4 /* ShareViewController.h */,
 				272C8D48114AE84100B641C4 /* ShareViewController.m */,
+				2773393B1185346000DB0A3E /* DatePickerViewController.h */,
+				2773393C1185346000DB0A3E /* DatePickerViewController.m */,
 				272C8F83114DA2FC00B641C4 /* EventEditorViewController.h */,
 				272C8F84114DA2FC00B641C4 /* EventEditorViewController.m */,
 				272C902A114DDE5300B641C4 /* EventAddViewController.h */,
@@ -229,6 +259,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				27F7E9681186AB4B00B08DB5 /* libsqlite3.dylib */,
+				27F7E9591186AA4D00B08DB5 /* libstdc++.6.dylib */,
 				2773370411814E3200DB0A3E /* UITableAlertView */,
 				277335DB117EAB6500DB0A3E /* Geocoding */,
 				272C8F6F114D9FCD00B641C4 /* Models */,
@@ -255,6 +287,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2773389D1183AB8300DB0A3E /* envelope.png */,
 				272C922E1154474100B641C4 /* location.png */,
 				272C8D1C114ADED000B641C4 /* track.png */,
 				272C8D1A114ADEA400B641C4 /* share.png */,
@@ -269,6 +302,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				27F7E95C1186AA7300B08DB5 /* QuartzCore.framework */,
+				2773387C1182615300DB0A3E /* MessageUI.framework */,
 				272C92301154475000B641C4 /* CoreLocation.framework */,
 				272C912F1152936100B641C4 /* MapKit.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
@@ -342,6 +377,9 @@
 				272C9037114DE48600B641C4 /* EventAddView.xib in Resources */,
 				272C91191152915500B641C4 /* LocationSelectionView.xib in Resources */,
 				272C922F1154474100B641C4 /* location.png in Resources */,
+				27733898118271F900DB0A3E /* SendTableViewCell.xib in Resources */,
+				2773389E1183AB8300DB0A3E /* envelope.png in Resources */,
+				2773393F1185346000DB0A3E /* DatePickerView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +410,8 @@
 				2773371111814E5500DB0A3E /* UITableAlertDataSource.m in Sources */,
 				2773371211814E5500DB0A3E /* UITableAlert.m in Sources */,
 				2773376E1182235800DB0A3E /* EventLocationMapAnnotation.m in Sources */,
+				2773388511826BB600DB0A3E /* MilesTracker.m in Sources */,
+				2773393E1185346000DB0A3E /* DatePickerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +452,40 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/inc/Proj4",
+					"$(SRCROOT)/inc/route-me",
+					"$(SRCROOT)/inc/CloudMade",
+				);
+				LIBRARY_SEARCH_PATHS = "";
+				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*][arch=*]" = (
+					"$(SRCROOT)/libs/Proj4/Device",
+					"$(SRCROOT)/libs/route-me/Device",
+					"$(SRCROOT)/libs/CloudMade/Device",
+				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*][arch=*]" = (
+					"$(SRCROOT)/libs/Proj4/Simulator",
+					"$(SRCROOT)/libs/route-me/Simulator",
+					"$(SRCROOT)/libs/CloudMade/Simulator",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				"OTHER_LDFLAGS[sdk=iphoneos*][arch=*]" = (
+					"-lProj4",
+					"-lMapView",
+					"-lCloudMadeApi",
+					"-ObjC",
+					"-all_load",
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=*]" = (
+					"-lProj4",
+					"-lMapView",
+					"-lCloudMadeApi",
+					"-ObjC",
+					"-all_load",
+				);
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.1.3;
 			};
@@ -425,6 +499,40 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/inc/Proj4",
+					"$(SRCROOT)/inc/route-me",
+					"$(SRCROOT)/inc/CloudMade",
+				);
+				LIBRARY_SEARCH_PATHS = "";
+				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*][arch=*]" = (
+					"$(SRCROOT)/libs/Proj4/Device",
+					"$(SRCROOT)/libs/route-me/Device",
+					"$(SRCROOT)/libs/CloudMade/Device",
+				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*][arch=*]" = (
+					"$(SRCROOT)/libs/Proj4/Simulator",
+					"$(SRCROOT)/libs/route-me/Simulator",
+					"$(SRCROOT)/libs/CloudMade/Simulator",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				"OTHER_LDFLAGS[sdk=iphoneos*][arch=*]" = (
+					"-lProj4",
+					"-lMapView",
+					"-lCloudMadeApi",
+					"-ObjC",
+					"-all_load",
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=*]" = (
+					"-lProj4",
+					"-lMapView",
+					"-lCloudMadeApi",
+					"-ObjC",
+					"-all_load",
+				);
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.1.3;
 			};

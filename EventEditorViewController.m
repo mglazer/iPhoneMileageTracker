@@ -9,6 +9,9 @@
 #import "EventEditorViewController.h"
 #import "LocationSelectionViewController.h"
 #import "Event.h"
+#import "MilesTracker.h"
+
+#import <RoutingRequest.h>
 
 
 @implementation EventEditorViewController
@@ -44,6 +47,8 @@
 	tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
 	tableView.delegate = self;
 	tableView.dataSource = self;
+	
+	self.navigationItem.title = self.event.name;
 	
 	[tableView reloadData];
 	
@@ -195,14 +200,11 @@ enum SectionDateCategoryRows {
 	}
 	
 	return cell;
-
-	
-	return cell;
 }
 
 - (UITableViewCell*)cellForDateSection:(UITableViewCell*)cell withRow:(NSUInteger)row {
 	
-	NSDateFormatter* formatter = [self createDateFormatter];
+	NSDateFormatter* formatter = [MilesTracker createDateFormatter];
 	
 	switch ( row ) {
 		case SECTION_DATE_CATEGORY_DATE:
@@ -222,13 +224,6 @@ enum SectionDateCategoryRows {
 	return cell;
 }
 
-- (NSDateFormatter*)createDateFormatter {
-	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-	[formatter setDateStyle:NSDateFormatterLongStyle];
-	[formatter setTimeStyle:NSDateFormatterShortStyle];
-	
-	return formatter;
-}
 
 - (void)didSelectRowInDistanceSection:(NSUInteger)row {
 }
@@ -264,6 +259,17 @@ enum SectionDateCategoryRows {
 }
 
 - (void)didSelectRowInDateSection:(NSUInteger)row {
+	
+	if ( row == SECTION_DATE_CATEGORY_DATE ) {
+		DatePickerViewController* controller = [[DatePickerViewController alloc] initWithNibName:@"DatePickerView"  bundle:nil];
+		controller.delegate = self;
+		controller.date = event.timeStamp;
+
+		
+		[self.navigationController pushViewController:controller animated:YES];
+		
+		[controller release];
+	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -339,6 +345,19 @@ enum SectionDateCategoryRows {
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark -
+#pragma mark DatePickerViewControllerDelegate
+
+-(void) datePickerAcceptedDateSelection:(NSDate*)date {
+	event.timeStamp = date;
+	
+	[self.tableView reloadData];
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void) datePickerCancelDateSelection {
+	[self.navigationController popViewControllerAnimated:YES];
+}
 
 
 /*
