@@ -8,12 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-
+@class TokenManager;
+@class RoutingRequest;
 
 @interface MilesTracker : NSObject {
 
 }
 
 + (NSDateFormatter*)createDateFormatter;
+
++ (RoutingRequest*)createRoutingRequest;
+
++ (TokenManager*)createTokenManager;
 
 @end

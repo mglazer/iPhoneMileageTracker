@@ -6,14 +6,14 @@
 //  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
-#import "EventAddViewController.h"
+#import "EventEditNameViewController.h"
 
 
 @class MilesTrackerAppDelegate;
 @class EventEditorViewController;
 @class Event;
 
-@interface HistoryTableViewController : UITableViewController <NSFetchedResultsControllerDelegate, EventAddDelegate> {
+@interface HistoryTableViewController : UITableViewController <NSFetchedResultsControllerDelegate, EventNameDelegate> {
 	NSFetchedResultsController *fetchedResultsController;
 	NSManagedObjectContext *managedObjectContext;
 	

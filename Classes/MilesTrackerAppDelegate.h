@@ -6,6 +6,8 @@
 //  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
+@class UnitConverter;
+
 @interface MilesTrackerAppDelegate : NSObject <UIApplicationDelegate> {
     
     NSManagedObjectModel *managedObjectModel;
@@ -14,6 +16,8 @@
 
     UIWindow *window;
     UITabBarController *tabBarController;
+	
+	UnitConverter* unitConverter;
 }
 
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
@@ -23,7 +27,10 @@
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 
+@property (nonatomic, retain) UnitConverter* unitConverter;
+
 - (NSString *)applicationDocumentsDirectory;
+
 
 @end
 

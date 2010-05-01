@@ -9,7 +9,10 @@
 #import "HistoryTableViewController.h"
 #import "MilesTrackerAppDelegate.h"
 #import "EventEditorViewController.h"
-#import "EventAddViewController.h"
+#import "EventEditNameViewController.h"
+#import "Event.h";
+
+#import "UnitConverter.h"
 
 
 @implementation HistoryTableViewController
@@ -97,16 +100,10 @@ enum HistoryCellTags {
 
 - (void)addEvent {
 	
-	// Create a new instance of the entity managed by the fetched results controller.
-	NSManagedObjectContext *context = [fetchedResultsController managedObjectContext];
-	Event *event = [NSEntityDescription insertNewObjectForEntityForName:@"Event" inManagedObjectContext:context];
-	
-	// If appropriate, configure the new managed object.
-	[event setValue:[NSDate date] forKey:@"timeStamp"];
-	
-	EventAddViewController* controller = [[EventAddViewController alloc] initWithNibName:@"EventAddView" bundle: nil];
+	EventEditNameViewController* controller = [[EventEditNameViewController alloc] initWithNibName:@"EventAddView" bundle: nil];
 	controller.delegate = self;
-	controller.event = event;
+	controller.name = @"";
+	controller.title = @"Add Event";
 	
 	UINavigationController *addEventNavigationController = [[UINavigationController alloc] initWithRootViewController:controller];
     [self presentModalViewController:addEventNavigationController animated:YES];
@@ -119,7 +116,30 @@ enum HistoryCellTags {
 #pragma mark -
 #pragma mark EventAddDelegate methods
 
-- (void)eventAddViewController:(EventAddViewController*)source didAddEvent:(Event*)event {
+- (void)eventEditNameViewController:(EventEditNameViewController*)source didSaveName:(NSString*)name {
+	
+	Event* event = nil;
+	
+	if ( name == nil ) {
+		// they hit cancel instead of save
+	} else {
+		// Create a new instance of the entity managed by the fetched results controller.
+		NSManagedObjectContext *context = [fetchedResultsController managedObjectContext];
+		event = [NSEntityDescription insertNewObjectForEntityForName:@"Event" inManagedObjectContext:context];
+		
+		// If appropriate, configure the new managed object.
+		[event setValue:[NSDate date] forKey:@"timeStamp"];
+		[event setValue:name forKey:@"name"];
+		
+		NSError* error;
+		if ( ![event.managedObjectContext save:&error] ) {
+			// TODO: Replace with better error handling code
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+			
+			abort();
+		}
+	}
+		
 	if ( event ) {
 		[self showEvent:event animated:NO];
 	}
@@ -131,6 +151,7 @@ enum HistoryCellTags {
 	EventEditorViewController* controller = [[EventEditorViewController alloc] initWithStyle:UITableViewStyleGrouped];
 	
 	controller.event = event;
+	controller.appDelegate = delegate;
 	//controller.navigationController = self.navigationController;
 	
 	[self.navigationController pushViewController:controller animated:YES];
@@ -164,17 +185,27 @@ enum HistoryCellTags {
 		self.nibLoadedCell = nil;
     }
 	
-	NSManagedObject *managedObject = [fetchedResultsController objectAtIndexPath:indexPath];
+	NSManagedObject* managedObject = [fetchedResultsController objectAtIndexPath:indexPath];
 
 	// Configure the cell.	
 	UILabel* nameLabel = (UILabel*)[cell viewWithTag:HISTORY_CELL_TAG_NAME];
-	nameLabel.text = @"TESTING 123";
+	nameLabel.text = [[managedObject valueForKey:@"name"] description];
 	
 	UILabel* dateLabel = (UILabel*)[cell viewWithTag:HISTORY_CELL_TAG_DATE];
 	dateLabel.text = [[managedObject valueForKey:@"timeStamp"] description];
 	
 	UILabel* distanceLabel = (UILabel*)[cell viewWithTag:HISTORY_CELL_TAG_DISTANCE];
-	distanceLabel.text = @"0.0";
+	
+	NSNumber* distanceNumber = (NSNumber*)[managedObject valueForKey:@"distance"];
+	
+	if ( distanceNumber == nil ) {
+		distanceLabel.text = @"0.0";
+	} else {
+		NSNumber* convertedNumber = [[delegate unitConverter] distanceToLocale:distanceNumber];
+		distanceLabel.text = [NSString stringWithFormat:@"%.2f %@", 
+							  [convertedNumber floatValue], 
+							  [[delegate unitConverter] localeDistanceString]];
+	}
     
 	NSLog(@"Finished setting all labels");
 
@@ -199,6 +230,7 @@ enum HistoryCellTags {
 	Event* event = (Event*)[[self fetchedResultsController] objectAtIndexPath:indexPath];
 	
 	controller.event = event;
+	controller.appDelegate = delegate;
 
 	[self.navigationController pushViewController:controller animated:YES];
 	[controller release];

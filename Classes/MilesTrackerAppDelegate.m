@@ -7,6 +7,7 @@
 //
 
 #import "MilesTrackerAppDelegate.h"
+#import "UnitConverter.h"
 
 
 
@@ -14,6 +15,7 @@
 
 @synthesize window;
 @synthesize tabBarController;
+@synthesize unitConverter;
 
 
 #pragma mark -
@@ -24,6 +26,8 @@
     // Override point for customization after app launch    
 
 	//rootViewController.managedObjectContext = self.managedObjectContext;
+	
+	unitConverter = [[UnitConverter alloc] initWithLocale:[NSLocale currentLocale]];
 	
 	[window addSubview:tabBarController.view];
     [window makeKeyAndVisible];
@@ -133,7 +137,7 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-	
+	[unitConverter release];
     [managedObjectContext release];
     [managedObjectModel release];
     [persistentStoreCoordinator release];

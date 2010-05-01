@@ -6,12 +6,45 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
+#import <RoutingRequest.h>
+
+#import "EventEditNameViewController.h"
 #import "EventEditorViewController.h"
+
 #import "LocationSelectionViewController.h"
 #import "Event.h"
 #import "MilesTracker.h"
+#import "MilesTrackerAppDelegate.h"
+#import "UnitConverter.h"
 
-#import <RoutingRequest.h>
+#import <TokenManager.h>
+#import <JsonRoutingParser.h>
+
+@implementation RoutingRequest(TokenBasedRoutingRequest) 
+-(void) findRoute:(CLLocationCoordinate2D) from to:(CLLocationCoordinate2D) toPoint vehicle:(NSString*) object tokenManager:(TokenManager*)tokenManager
+{
+	NSString* strUrl = [self composeURL:from to:toPoint vechile:object];
+	strUrl = [tokenManager appendRequestWithToken:strUrl];
+	NSLog(@"url = %@\n",strUrl);
+	NSURLRequest *theRequest=[NSURLRequest requestWithURL:[NSURL URLWithString:strUrl]
+											  cachePolicy:NSURLRequestUseProtocolCachePolicy
+										  timeoutInterval:20.0];
+	// create the connection with the request
+	// and start loading the data
+	NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+	if (theConnection) {
+		// Create the NSMutableData that will hold
+		// the received data
+		// receivedData is declared as a method instance elsewhere
+		receivedData=[[NSMutableData data] retain];
+	} else {
+		// inform the user that the download could not be made
+	}		
+	
+	
+}
+@end
+
 
 
 @implementation EventEditorViewController
@@ -19,6 +52,7 @@
 @synthesize event;
 @synthesize editingStartLocation;
 @synthesize tableView;
+@synthesize appDelegate;
 
 /*
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -53,6 +87,9 @@
 	[tableView reloadData];
 	
 	self.view = tableView;	
+	
+	tokenManager_ = [MilesTracker createTokenManager];
+	[tokenManager_ requestToken];
 }
 
 
@@ -173,7 +210,10 @@ enum SectionDateCategoryRows {
 }
 
 - (UITableViewCell*)cellForDistanceSection:(UITableViewCell*)cell withRow:(NSUInteger)row {
-	[cell detailTextLabel].text = [NSString stringWithFormat:@"%1.2f", event.distance];
+	
+	NSNumber* localeDistance = [[appDelegate unitConverter] distanceToLocale:event.distance];
+	[cell detailTextLabel].text = [NSString stringWithFormat:@"%.2f %@", [localeDistance floatValue], 
+																		 [[appDelegate unitConverter] localeDistanceString]];
 	[cell textLabel].text = @"Distance";
 	cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 	
@@ -230,31 +270,26 @@ enum SectionDateCategoryRows {
 
 - (void)didSelectRowInNameSection:(NSUInteger)row {
 	
-	UIViewController* nextController = nil;
-	LocationSelectionViewController* locController;
-	
-	switch ( row ) {
-		case SECTION_NAME_START_END_START:
-			locController = [[LocationSelectionViewController alloc] initWithNibName:@"LocationSelectionView" bundle:nil];
-			locController.delegate = self;
-			self.editingStartLocation = YES;
-			nextController = locController;
-			break;
-		case SECTION_NAME_START_END_END:
-			locController = [[LocationSelectionViewController alloc] initWithNibName:@"LocationSelectionView" bundle:nil];
-			locController.delegate = self;
-			self.editingStartLocation = NO;
-			nextController = locController;
-			break;
+	if ( row == SECTION_NAME_START_END_NAME ) {
+		EventEditNameViewController* editController = [[EventEditNameViewController alloc] initWithNibName:@"EventAddView" bundle:nil];
+		editController.delegate = self;
+		editController.name = event.name;
+		editController.title = @"Edit Event Name";
+		
+		[self.navigationController pushViewController:editController animated:YES];
+		
+	} else {
+		LocationSelectionViewController* nextController =  [[LocationSelectionViewController alloc] initWithNibName:@"LocationSelectionView" bundle:nil];
+		nextController.delegate = self;
+		self.editingStartLocation = (row == SECTION_NAME_START_END_START);
+		
+		UINavigationController* baseController = [[UINavigationController alloc] initWithRootViewController:nextController];
+		//[self.navigationController pushViewController:nextController animated:YES];
+		[self presentModalViewController:baseController	animated:YES];
+		
+		[nextController release];
+		[baseController release];
 	}
-	
-	UINavigationController* baseController = [[UINavigationController alloc] initWithRootViewController:nextController];
-	//[self.navigationController pushViewController:nextController animated:YES];
-	[self presentModalViewController:baseController	animated:YES];
-
-	
-	[nextController release];
-	[baseController release];
 	
 }
 
@@ -294,26 +329,50 @@ enum SectionDateCategoryRows {
 #pragma mark -
 #pragma mark LocationSelectionViewDelegate methods
 
+- (bool)eventHasStartAndEndPositionsDefined {
+	return self.event.startLocationLat != nil && self.event.startLocationLon != nil &&
+	self.event.endLocationLat != nil && self.event.endLocationLon != nil;
+}
+
+- (void)updateDistanceFromEvent {
+
+	CLLocationCoordinate2D startLocation;
+	startLocation.latitude = [self.event.startLocationLat doubleValue];
+	startLocation.longitude = [self.event.startLocationLon doubleValue];
+	
+	CLLocationCoordinate2D endLocation;
+	endLocation.latitude = [self.event.endLocationLat doubleValue];
+	endLocation.longitude = [self.event.endLocationLon doubleValue];
+	
+	RoutingRequest* request = [MilesTracker createRoutingRequest];
+	request.delegate = self;
+	[request findRoute:startLocation to:endLocation vehicle:@"car" tokenManager:tokenManager_];
+	
+	[request release];
+	
+}
+	
+
 - (void)didAcceptLocationSelection:(CLLocationCoordinate2D)coordinate withAddress:(NSString*)name {
 	//[self dismissModalViewControllerAnimated:YES];
 	
-	NSLog(@"User selected location %f:%f at %s", coordinate.latitude, coordinate.longitude, name);
+	NSLog(@"User selected location %f:%f at %@", coordinate.latitude, coordinate.longitude, name);
 	if ( self.editingStartLocation ) {
 		self.event.startLocationLat = [NSNumber numberWithDouble:coordinate.latitude];
 		self.event.startLocationLon = [NSNumber numberWithDouble:coordinate.longitude];
-		self.event.startLocationDescription = name;
-		NSLog(@"Editing start location");
-		
+		self.event.startLocationDescription = name;		
 	} else {
 		self.event.endLocationLat = [NSNumber numberWithDouble:coordinate.latitude];
 		self.event.endLocationLon = [NSNumber numberWithDouble:coordinate.longitude];
 		self.event.endLocationDescription = name;
-		
-		NSLog(@"Editing end location");
 	}
 	
 	[tableView reloadData];	
 	[self dismissModalViewControllerAnimated:YES];
+	
+	if ( [self eventHasStartAndEndPositionsDefined] ) {
+		[self updateDistanceFromEvent];
+	}
 }
 
 - (bool)isStartingPoint {
@@ -324,7 +383,41 @@ enum SectionDateCategoryRows {
 - (void)didCancelLocationSelection {
 	[self dismissModalViewControllerAnimated:YES];
 }
+	
+#pragma mark -
+#pragma mark EventNameDelegate
 
+- (void)eventEditNameViewController:(EventEditNameViewController*)source didSaveName:(NSString*)name {
+	if ( name != nil ) {
+		event.name = name;
+		[tableView reloadData];
+	}
+	
+	[self.navigationController popViewControllerAnimated:YES];
+}
+	
+#pragma mark -
+#pragma mark ServiceRequestResult
+	
+- (void) serviceServerResponse:(NSString *)jsonResponse {
+	NSLog(@"%@", jsonResponse);
+	JsonRoutingParser* parser = [[JsonRoutingParser alloc] init];
+	
+	if ( [parser responceStatus:jsonResponse] ) {
+		RouteSummary* result = [parser routeSummury:jsonResponse];
+		event.distance = [NSNumber numberWithFloat:(float)result.totalDistance];
+		
+		[tableView reloadData];
+		[result release];
+	}
+	
+	
+	[parser release];
+}
+
+- (void) serviceServerError:(NSString *)error {
+	NSLog(@"Error: %@", error);
+}
 
 #pragma mark -
 #pragma mark Saving and cancelling

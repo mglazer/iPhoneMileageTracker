@@ -8,6 +8,12 @@
 
 #import "MilesTracker.h"
 
+#import <RoutingRequest.h>
+#import <TokenManager.h>
+
+
+#define API_KEY @"7b2a52c41f77434cb0afeff0f6c24cba"
+
 
 @implementation MilesTracker
 
@@ -19,4 +25,13 @@
 	
 	return formatter;
 }
+
++(RoutingRequest*) createRoutingRequest {
+	return [[RoutingRequest alloc] initWithApikey:API_KEY];
+}
+
++(TokenManager*) createTokenManager {
+	return [[TokenManager alloc] initWithApikey:API_KEY];
+}
+
 @end

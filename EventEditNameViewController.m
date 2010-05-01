@@ -6,12 +6,12 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "EventAddViewController.h"
+#import "EventEditNameViewController.h"
 #import "Event.h"
 
-@implementation EventAddViewController
+@implementation EventEditNameViewController
 
-@synthesize event;
+@synthesize name, title;
 @synthesize nameTextField;
 @synthesize delegate;
 
@@ -32,18 +32,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	self.navigationItem.title = @"Add Event";
+	self.navigationItem.title = title;
 	
-	UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
-	self.navigationItem.leftBarButtonItem = cancelButtonItem;
+	if ( self.navigationItem.leftBarButtonItem == nil && self.navigationItem.backBarButtonItem == nil ) {
+		UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+		self.navigationItem.leftBarButtonItem = cancelButtonItem;
+		
+		[cancelButtonItem release];
+	}
 	
-	UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(save)];
-	self.navigationItem.rightBarButtonItem = saveButtonItem;
+	//UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
+	//self.navigationItem.rightBarButtonItem = saveButtonItem;
+	
+
 	
 	[nameTextField becomeFirstResponder];
 	
-	[saveButtonItem release];
-	[cancelButtonItem release];
+	if ( self.name != nil ) {
+		nameTextField.placeholder = nil;
+		nameTextField.clearsOnBeginEditing = NO;
+		nameTextField.text = self.name;
+	}
+	
+	//[saveButtonItem release];
+	//[cancelButtonItem release];
 }
 
 
@@ -65,33 +77,12 @@
 }
 
 - (void)save {
-	event.name = nameTextField.text;
-	
-	NSError* error;
-	if ( ![event.managedObjectContext save:&error] ) {
-		// TODO: Replace with better error handling code
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		
-		abort();
-	}
-	
 	NSLog(@"Sending to delegate");
-	[self.delegate eventAddViewController:self didAddEvent:event];
+	[self.delegate eventEditNameViewController:self didSaveName:nameTextField.text];
 }
 
 - (void)cancel {
-	
-	[event.managedObjectContext deleteObject:event];
-	
-	NSError* error;
-	if ( ![event.managedObjectContext save:&error] ) {
-		// TODO: Replace with better error handling code
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		
-		abort();
-	}
-	
-	[self.delegate eventAddViewController:self didAddEvent:nil];
+	[self.delegate eventEditNameViewController:self didSaveName:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -110,8 +101,10 @@
 
 
 - (void)dealloc {
-	[event release];
 	[nameTextField release];
+	[delegate release];
+	[name release];
+	[title release];
     [super dealloc];
 }
 

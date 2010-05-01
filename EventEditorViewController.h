@@ -10,19 +10,25 @@
 
 #import "LocationSelectionViewController.h"
 #import "DatePickerViewController.h"
+#import <ServiceRequest.h>
 
 @class Event;
+@class TokenManager;
+@class MilesTrackerAppDelegate;
 
-@interface EventEditorViewController : UITableViewController <LocationSelectionViewDelegate,DatePickerViewControllerDelegate> {
+@interface EventEditorViewController : UITableViewController <LocationSelectionViewDelegate,DatePickerViewControllerDelegate,ServiceRequestResult,EventNameDelegate> {
 	Event* event;
 	BOOL editingStartLocation;
 	UITableView* tableView;
+	TokenManager* tokenManager_;
+	MilesTrackerAppDelegate* appDelegate;
 //	UINavigationController* navigationController;
 }
 
 @property (nonatomic,retain) Event* event;
 @property (nonatomic,retain) UITableView* tableView;
 @property BOOL editingStartLocation;
+@property(nonatomic, retain) IBOutlet MilesTrackerAppDelegate* appDelegate;
 //@property (nonatomic,retain) UINavigationController* navigationController;
 
 - (UITableViewCell*)cellForDistanceSection:(UITableViewCell*)cell withRow:(NSUInteger)row;
