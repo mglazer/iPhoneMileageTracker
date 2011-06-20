@@ -9,13 +9,15 @@
 #import "DatePickerViewController.h"
 
 #import "ShareViewController.h"
-
+#import "Event.h"
 #import "MilesTracker.h"
+#import "MilesTrackerAppDelegate.h"
+#import "UnitConverter.h"
 
 
 @implementation ShareViewController
 
-@synthesize nibLoadedCell;
+@synthesize nibLoadedCell, appDelegate;
 
 enum TableViewSections {
 	SECTION_DATES,
@@ -40,6 +42,91 @@ enum SendSectionRows {
 	SECTION_SEND_COUNT
 };
 
+#pragma mark Service methods
+
+- (NSDate*)findEarliestDate {
+	
+	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
+	[fetchRequest setEntity:entity];
+	
+	NSString* predFormat = @"timeStamp = min(timeStamp)";
+	NSPredicate *pred = [NSPredicate predicateWithFormat:predFormat];
+	[fetchRequest setPredicate:pred];
+	
+	NSError* error;
+	NSArray* values = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+	
+	[fetchRequest release];
+	
+	if ( [values count] != 0 ) {
+		Event* event = [values objectAtIndex:0];
+		NSDate* earliestDate = [event valueForKey:@"timeStamp"];
+		
+		return earliestDate;
+	} else {
+		return [NSDate date];
+	}
+	
+}
+	
+- (NSArray*)allTripsWithStartDate:(NSDate*)startDate andEndDate:(NSDate*)endDate andCategory:(NSString*)category {
+	
+	/*
+	 Set up the fetched results controller.
+	 */
+	// Create the fetch request for the entity.
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	// Edit the entity name as appropriate.
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
+	[fetchRequest setEntity:entity];
+	
+	// Set the batch size to a suitable number.
+	[fetchRequest setFetchBatchSize:20];
+	
+	// Edit the sort key as appropriate.
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:YES];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+	
+	[fetchRequest setSortDescriptors:sortDescriptors];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"timeStamp >= %@ and timeStamp <= %@", startDate,endDate];
+	[fetchRequest setPredicate:predicate];
+	
+	// Edit the section name key path and cache name if appropriate.
+	// nil for section name key path means "no sections".
+	
+	NSError* error = nil;
+	NSArray* values = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+	
+	
+	if ( values == nil ) {
+		/*
+		 Replace this implementation with code to handle the error appropriately.
+		 
+		 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+		 */
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error"
+														message:[[error userInfo] description]
+													   delegate:nil 
+											  cancelButtonTitle:@"Close"
+											  otherButtonTitles:nil];
+		[alert show];
+		[alert release];
+		
+		values = nil;
+	}
+	
+	
+	[fetchRequest release];
+	[sortDescriptor release];
+	[sortDescriptors release];
+	//[predicate release];
+	
+	return values;
+}
+
 /*
 - (id)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -55,21 +142,30 @@ enum SendSectionRows {
 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+		
+	footerView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,320,24)];
+	footerView.text = @"";
+	footerView.textAlignment = UITextAlignmentCenter;
+	footerView.textColor = [UIColor greenColor];
+	footerView.backgroundColor = [UIColor clearColor];
 	
+	self.tableView.tableFooterView = footerView;
 	
 
-	startDate_ = [[NSDate date] retain];
+	startDate_ = [[self findEarliestDate] retain];
 	endDate_ = [[NSDate date] retain];
 	canSendEmail_ =  [MFMailComposeViewController canSendMail];
+	
 		
 }
 
 
-/*
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+	[self.tableView reloadData];
 }
-*/
+
 /*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -104,6 +200,12 @@ enum SendSectionRows {
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+	
+	appDelegate = nil;
+}
+
+- (NSManagedObjectContext*)managedObjectContext {
+	return appDelegate.managedObjectContext;
 }
 
 
@@ -172,7 +274,7 @@ enum SendSectionRows {
 	
 	[cell detailTextLabel].text = format_;
 	[cell textLabel].text = @"Format";
-	cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+	cell.accessoryType = UITableViewCellAccessoryNone;
 	
 	return cell;
 }
@@ -196,7 +298,6 @@ enum SendSectionRows {
     
 	UITableViewCell* cell = nil;
 
-    NSLog(@"Laying out %d:%d", indexPath.section, indexPath.row);
     switch ( indexPath.section ) {
 		case SECTION_DATES:
 			cell = [self cellForDatesSection:tableView withRow:indexPath.row];
@@ -245,6 +346,82 @@ enum SendSectionRows {
 }
 
 
+
+
+
+#pragma mark -
+#pragma mark Writing Data and Sending Email
+
+- (NSData*)writeCSVFormattedData {
+	NSMutableData* data = [[NSMutableData alloc] initWithLength:4096];
+	
+	NSArray* arrResults = [self allTripsWithStartDate:startDate_ andEndDate:endDate_ andCategory:nil];
+	
+	if ( !arrResults ) {
+		return data;
+	}
+	
+	NSEnumerator* enumerator = [arrResults objectEnumerator];
+	Event* event = nil;
+	NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+	[formatter setDateStyle:NSDateFormatterShortStyle];
+	[formatter setTimeStyle:NSDateFormatterNoStyle];
+	
+	NSString* header = [[NSString alloc] initWithFormat:@"Date,Name,Start Location,End Location,Distance (%@)\n",
+						[[appDelegate unitConverter] localeDistanceString]];
+	[data appendData:[header dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	while ( (event = [enumerator nextObject]) ) {
+		if ( !event.distance || !event.startLocationDescription || !event.endLocationDescription ) {
+			continue;
+		}
+		
+		NSMutableString* line = [[NSMutableString alloc] initWithCapacity:128];
+		[line appendString:[formatter stringFromDate:event.timeStamp]];
+		[line appendString:@","];
+		[line appendString:event.name];
+		[line appendString:@",\""];
+		[line appendString:event.startLocationDescription];
+		[line appendString:@"\",\""];
+		[line appendString:event.endLocationDescription];		
+		[line appendString:@"\","];
+		
+		NSNumber* distance = [[appDelegate unitConverter] distanceToLocale:event.distance];
+		NSString* distanceStr = [[NSString alloc] initWithFormat:@"%.1f", [distance floatValue]];
+		[line appendString:distanceStr];
+		[line appendString:@"\n"];
+		
+		[data appendData:[line dataUsingEncoding:NSUTF8StringEncoding]];
+		
+		[distanceStr release];
+		[line release];
+	}
+	
+	[header release];
+	[formatter release];
+	return data;
+}
+	
+
+- (NSData*)writeFormattedData {
+
+	if ( [format_ compare:@"CSV"] == NSOrderedSame ) {
+		return [self writeCSVFormattedData];
+	}
+	
+	return nil;
+}
+	
+-(NSString*) mimeType {
+	
+	if ( [format_ compare:@"CSV"] == NSOrderedSame ) {
+		return @"text/csv";
+	}
+	
+	return @"application/text";
+}
+
+
 - (void)sendMail {
 
 	MFMailComposeViewController* composer = [[MFMailComposeViewController alloc] init];
@@ -254,14 +431,20 @@ enum SendSectionRows {
 	NSString* startDateFormatted = [formatter stringFromDate:startDate_];
 	NSString* endDateFormatted = [formatter stringFromDate:endDate_];
 	
+	NSData* attachmentData = [self writeFormattedData];
+	
+	
 	[composer setSubject:[NSString stringWithFormat:@"Tracked mileage from %@-%@", startDateFormatted, endDateFormatted]];
-	[composer setMessageBody:@"Hello world" isHTML:NO];
+	[composer setMessageBody:@"Tracked Mileage Attached" isHTML:NO];
+	
+	[composer addAttachmentData:attachmentData mimeType:[self mimeType] fileName:@"milage.csv"];
 	composer.mailComposeDelegate = self;
 	
 	[self presentModalViewController:composer animated:YES];
 	
 	[composer release];
 	[formatter release];
+	[attachmentData release];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowInSendSection:(NSUInteger)row {
@@ -369,6 +552,20 @@ enum SendSectionRows {
 						error:(NSError*)error {
 	[self becomeFirstResponder];
 	[self dismissModalViewControllerAnimated:YES];
+	
+	if ( result == MFMailComposeResultSent ) {
+		footerView.text = @"Sent";
+		footerView.textColor = [UIColor greenColor];
+	} else if ( result == MFMailComposeResultFailed ) {
+		NSLog(@"Failed with error %@", [error userInfo]);
+		NSString* errorText = [[NSString alloc] initWithFormat:@"Error: %@", [error userInfo]];
+		footerView.text = errorText;
+		footerView.textColor = [UIColor redColor];
+		
+		[errorText release];
+	} else {
+		footerView.text = @"";
+	}
 }
 
 
@@ -384,7 +581,6 @@ enum SendSectionRows {
 		endDate_ = [date retain];
 	}
 	
-	[self.tableView reloadData];
 	[self becomeFirstResponder];
 	[self dismissModalViewControllerAnimated:YES];
 }
@@ -399,6 +595,7 @@ enum SendSectionRows {
 	
 	[startDate_ release];
 	[endDate_ release];
+	[footerView release];
 }
 
 

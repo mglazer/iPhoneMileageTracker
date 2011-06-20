@@ -96,5 +96,12 @@
 	[alertDelegate tableAlert:self didSelectRowAtIndexPath:indexPath];
 }
 
+- (void)tableView:(UITableView *)tableView 
+	willDisplayCell:(UITableViewCell *)cell 
+	forRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	cell.textLabel.font = [UIFont systemFontOfSize:12.0];
+}
+
 
 @end

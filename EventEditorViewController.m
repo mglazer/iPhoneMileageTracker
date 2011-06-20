@@ -13,37 +13,17 @@
 
 #import "LocationSelectionViewController.h"
 #import "Event.h"
+#import "Tag.h"
 #import "MilesTracker.h"
 #import "MilesTrackerAppDelegate.h"
 #import "UnitConverter.h"
+#import "DistancePickerViewController.h"
+#import "TagSelectionController.h"
+#import "RoutingRequestAdditions.h"
 
 #import <TokenManager.h>
 #import <JsonRoutingParser.h>
 
-@implementation RoutingRequest(TokenBasedRoutingRequest) 
--(void) findRoute:(CLLocationCoordinate2D) from to:(CLLocationCoordinate2D) toPoint vehicle:(NSString*) object tokenManager:(TokenManager*)tokenManager
-{
-	NSString* strUrl = [self composeURL:from to:toPoint vechile:object];
-	strUrl = [tokenManager appendRequestWithToken:strUrl];
-	NSLog(@"url = %@\n",strUrl);
-	NSURLRequest *theRequest=[NSURLRequest requestWithURL:[NSURL URLWithString:strUrl]
-											  cachePolicy:NSURLRequestUseProtocolCachePolicy
-										  timeoutInterval:20.0];
-	// create the connection with the request
-	// and start loading the data
-	NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
-	if (theConnection) {
-		// Create the NSMutableData that will hold
-		// the received data
-		// receivedData is declared as a method instance elsewhere
-		receivedData=[[NSMutableData data] retain];
-	} else {
-		// inform the user that the download could not be made
-	}		
-	
-	
-}
-@end
 
 
 
@@ -88,16 +68,16 @@
 	
 	self.view = tableView;	
 	
-	tokenManager_ = [MilesTracker createTokenManager];
-	[tokenManager_ requestToken];
+	tokenManager_ = [[MilesTracker sharedInstance] tokenManager];
 }
 
 
-/*
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+	[tableView reloadData];
 }
-*/
+
 /*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -132,6 +112,8 @@
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+	
+	appDelegate = nil;
 }
 
 
@@ -140,7 +122,7 @@
 enum TableViewSections {
 	SECTION_DISTANCE = 0,
 	SECTION_NAME_START_END = 1,
-	SECTION_DATE_CATEGORY = 2,
+	SECTION_DATE_TAGS = 2,
 	SECTION_COUNT = 3
 };
 
@@ -156,10 +138,10 @@ enum NameStartEndSectionRows {
 	SECTION_NAME_START_END_COUNT = 3
 };
 
-enum SectionDateCategoryRows {
-	SECTION_DATE_CATEGORY_DATE = 0,
-	SECTION_DATE_CATEGORY_CATEGORY = 1,
-	SECTION_DATE_CATEGORY_COUNT = 2
+enum SectionDateTagsRows {
+	SECTION_DATE_TAGS_DATE = 0,
+	SECTION_DATE_TAGS_TAGS = 1,
+	SECTION_DATE_TAGS_COUNT = 2
 };
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -174,8 +156,8 @@ enum SectionDateCategoryRows {
 			return SECTION_DISTANCE_COUNT;
 		case SECTION_NAME_START_END:
 			return SECTION_NAME_START_END_COUNT;
-		case SECTION_DATE_CATEGORY:
-			return SECTION_DATE_CATEGORY_COUNT;
+		case SECTION_DATE_TAGS:
+			return SECTION_DATE_TAGS_COUNT;
 	}
 	
 	return 0;
@@ -201,7 +183,7 @@ enum SectionDateCategoryRows {
 		case SECTION_NAME_START_END:
 			cell = [self cellForNameSection:cell withRow:indexPath.row];
 			break;
-		case SECTION_DATE_CATEGORY:
+		case SECTION_DATE_TAGS:
 			cell = [self cellForDateSection:cell withRow:indexPath.row];
 			break;
 	}
@@ -212,7 +194,7 @@ enum SectionDateCategoryRows {
 - (UITableViewCell*)cellForDistanceSection:(UITableViewCell*)cell withRow:(NSUInteger)row {
 	
 	NSNumber* localeDistance = [[appDelegate unitConverter] distanceToLocale:event.distance];
-	[cell detailTextLabel].text = [NSString stringWithFormat:@"%.2f %@", [localeDistance floatValue], 
+	[cell detailTextLabel].text = [NSString stringWithFormat:@"%.1f %@", [localeDistance floatValue], 
 																		 [[appDelegate unitConverter] localeDistanceString]];
 	[cell textLabel].text = @"Distance";
 	cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -242,19 +224,44 @@ enum SectionDateCategoryRows {
 	return cell;
 }
 
+- (NSString*)textForTagsCell:(NSSet*)tags {
+	Tag* tag = nil;
+	NSEnumerator* enumerator = [tags objectEnumerator];
+	
+	NSString* result = @"";
+	NSMutableString* buffer = [NSMutableString string];
+	while ( (tag = [enumerator nextObject]) ) {
+		[buffer appendString:tag.name];
+		[buffer appendString:@", "];
+	}
+	
+	// Delete final comma+space from the string
+	if (![buffer isEqualToString:@""])
+	{
+		[buffer deleteCharactersInRange:NSMakeRange(
+													[buffer length]-2, 2)];
+		result = [NSString stringWithString:buffer];
+	}
+	
+	return result;
+}
+
 - (UITableViewCell*)cellForDateSection:(UITableViewCell*)cell withRow:(NSUInteger)row {
 	
 	NSDateFormatter* formatter = [MilesTracker createDateFormatter];
 	
 	switch ( row ) {
-		case SECTION_DATE_CATEGORY_DATE:
+		case SECTION_DATE_TAGS_DATE:
 			[cell detailTextLabel].text = [formatter stringFromDate:event.timeStamp];
 			[cell textLabel].text = @"Date";
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 			break;
-		case SECTION_DATE_CATEGORY_CATEGORY:
-			[cell detailTextLabel].text = event.category;
-			[cell textLabel].text = @"Category";
+		case SECTION_DATE_TAGS_TAGS:
+			
+			
+				
+			[cell detailTextLabel].text = [self textForTagsCell:event.tags];
+			[cell textLabel].text = @"Tags";
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 			break;
 	}
@@ -266,6 +273,17 @@ enum SectionDateCategoryRows {
 
 
 - (void)didSelectRowInDistanceSection:(NSUInteger)row {
+	if ( row != 0 ) {
+		return;
+	}
+	
+	DistancePickerViewController* controller = [[DistancePickerViewController alloc] init];
+	controller.distance = [[appDelegate unitConverter] distanceToLocale:event.distance];
+	controller.delegate = self;
+	
+	[self.navigationController pushViewController:controller animated:YES];
+	
+	[controller release];
 }
 
 - (void)didSelectRowInNameSection:(NSUInteger)row {
@@ -281,6 +299,23 @@ enum SectionDateCategoryRows {
 	} else {
 		LocationSelectionViewController* nextController =  [[LocationSelectionViewController alloc] initWithNibName:@"LocationSelectionView" bundle:nil];
 		nextController.delegate = self;
+		
+		NSString* existingAddress;
+		CLLocationCoordinate2D existingCoordinate;
+		
+		if ( row == SECTION_NAME_START_END_START ) {
+			existingAddress = event.startLocationDescription;
+			existingCoordinate.latitude = [event.startLocationLat floatValue];
+			existingCoordinate.longitude = [event.startLocationLon floatValue];
+		} else {
+			existingAddress = event.endLocationDescription;
+			existingCoordinate.latitude = [event.endLocationLat floatValue];
+			existingCoordinate.longitude = [event.endLocationLon floatValue];
+		}
+			
+		nextController.existingAddress = existingAddress;
+		nextController.existingCoordinate = existingCoordinate;
+		
 		self.editingStartLocation = (row == SECTION_NAME_START_END_START);
 		
 		UINavigationController* baseController = [[UINavigationController alloc] initWithRootViewController:nextController];
@@ -295,7 +330,7 @@ enum SectionDateCategoryRows {
 
 - (void)didSelectRowInDateSection:(NSUInteger)row {
 	
-	if ( row == SECTION_DATE_CATEGORY_DATE ) {
+	if ( row == SECTION_DATE_TAGS_DATE ) {
 		DatePickerViewController* controller = [[DatePickerViewController alloc] initWithNibName:@"DatePickerView"  bundle:nil];
 		controller.delegate = self;
 		controller.date = event.timeStamp;
@@ -303,6 +338,12 @@ enum SectionDateCategoryRows {
 		
 		[self.navigationController pushViewController:controller animated:YES];
 		
+		[controller release];
+	} else {
+		TagSelectionController* controller = [[TagSelectionController alloc] initWithStyle:UITableViewStyleGrouped];
+		controller.event = event;
+		
+		[self.navigationController pushViewController:controller animated:YES];
 		[controller release];
 	}
 }
@@ -315,7 +356,7 @@ enum SectionDateCategoryRows {
 		case SECTION_NAME_START_END:
 			[self didSelectRowInNameSection:indexPath.row];
 			break;
-		case SECTION_DATE_CATEGORY:
+		case SECTION_DATE_TAGS:
 			[self didSelectRowInDateSection:indexPath.row];
 			break;
 	}
@@ -367,7 +408,6 @@ enum SectionDateCategoryRows {
 		self.event.endLocationDescription = name;
 	}
 	
-	[tableView reloadData];	
 	[self dismissModalViewControllerAnimated:YES];
 	
 	if ( [self eventHasStartAndEndPositionsDefined] ) {
@@ -390,7 +430,18 @@ enum SectionDateCategoryRows {
 - (void)eventEditNameViewController:(EventEditNameViewController*)source didSaveName:(NSString*)name {
 	if ( name != nil ) {
 		event.name = name;
-		[tableView reloadData];
+	}
+	
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark -
+#pragma mark DistancePickerViewControllerDelegate
+
+- (void)didSaveDistance:(NSNumber*)distance {
+	
+	if ( distance != nil ) {
+		event.distance = [[appDelegate unitConverter] distanceFromLocale:distance];
 	}
 	
 	[self.navigationController popViewControllerAnimated:YES];
@@ -400,14 +451,13 @@ enum SectionDateCategoryRows {
 #pragma mark ServiceRequestResult
 	
 - (void) serviceServerResponse:(NSString *)jsonResponse {
-	NSLog(@"%@", jsonResponse);
 	JsonRoutingParser* parser = [[JsonRoutingParser alloc] init];
 	
 	if ( [parser responceStatus:jsonResponse] ) {
 		RouteSummary* result = [parser routeSummury:jsonResponse];
 		event.distance = [NSNumber numberWithFloat:(float)result.totalDistance];
 		
-		[tableView reloadData];
+		[self.tableView reloadData];
 		[result release];
 	}
 	
@@ -444,7 +494,6 @@ enum SectionDateCategoryRows {
 -(void) datePickerAcceptedDateSelection:(NSDate*)date {
 	event.timeStamp = date;
 	
-	[self.tableView reloadData];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 

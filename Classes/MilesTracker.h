@@ -12,6 +12,7 @@
 @class RoutingRequest;
 
 @interface MilesTracker : NSObject {
+	TokenManager* tokenManager;
 
 }
 
@@ -19,6 +20,8 @@
 
 + (RoutingRequest*)createRoutingRequest;
 
-+ (TokenManager*)createTokenManager;
+- (TokenManager*)tokenManager;
+
++ (MilesTracker*)sharedInstance;
 
 @end

@@ -21,7 +21,6 @@
 @synthesize navigationController;
 @synthesize delegate;
 @synthesize nibLoadedCell;
-@synthesize eventEditor;
 
 
 enum HistoryCellTags {
@@ -84,6 +83,8 @@ enum HistoryCellTags {
 - (void)viewDidUnload {
 	// Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
 	// For example: self.myOutlet = nil;
+	
+	delegate = nil;
 }
 
 /*
@@ -98,11 +99,14 @@ enum HistoryCellTags {
 #pragma mark -
 #pragma mark Add a new object
 
+
+
 - (void)addEvent {
 	
 	EventEditNameViewController* controller = [[EventEditNameViewController alloc] initWithNibName:@"EventAddView" bundle: nil];
 	controller.delegate = self;
-	controller.name = @"";
+	controller.nextID = [delegate nextEventID];
+	controller.name = [NSString stringWithFormat:@"Trip %d", controller.nextID];
 	controller.title = @"Add Event";
 	
 	UINavigationController *addEventNavigationController = [[UINavigationController alloc] initWithRootViewController:controller];
@@ -130,6 +134,7 @@ enum HistoryCellTags {
 		// If appropriate, configure the new managed object.
 		[event setValue:[NSDate date] forKey:@"timeStamp"];
 		[event setValue:name forKey:@"name"];
+		[event setValue:[NSNumber numberWithInt:source.nextID] forKey:@"eventID"];
 		
 		NSError* error;
 		if ( ![event.managedObjectContext save:&error] ) {
@@ -202,7 +207,7 @@ enum HistoryCellTags {
 		distanceLabel.text = @"0.0";
 	} else {
 		NSNumber* convertedNumber = [[delegate unitConverter] distanceToLocale:distanceNumber];
-		distanceLabel.text = [NSString stringWithFormat:@"%.2f %@", 
+		distanceLabel.text = [NSString stringWithFormat:@"%.1f %@", 
 							  [convertedNumber floatValue], 
 							  [[delegate unitConverter] localeDistanceString]];
 	}
@@ -237,13 +242,13 @@ enum HistoryCellTags {
 }
 
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
+
 
 
 // Override to support editing the table view.
@@ -357,6 +362,7 @@ enum HistoryCellTags {
 - (void)dealloc {
 	[fetchedResultsController release];
 	[managedObjectContext release];
+	[navigationController release];
     [super dealloc];
 }
 

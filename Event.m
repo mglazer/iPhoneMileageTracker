@@ -2,25 +2,28 @@
 //  Event.m
 //  MilesTracker
 //
-//  Created by Mike Glazer on 3/18/10.
+//  Created by Mike Glazer on 5/4/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import "Event.h"
 
+#import "Tag.h"
 
 @implementation Event 
 
-@dynamic endLocationLat;
-@dynamic endLocationLon;
-@dynamic name;
+@dynamic eventID;
 @dynamic endLocationDescription;
 @dynamic startLocationLat;
-@dynamic startLocationDescription;
 @dynamic roundTrip;
 @dynamic distance;
 @dynamic timeStamp;
 @dynamic category;
+@dynamic endLocationLon;
+@dynamic endLocationLat;
+@dynamic name;
+@dynamic startLocationDescription;
 @dynamic startLocationLon;
+@dynamic tags;
 
 @end

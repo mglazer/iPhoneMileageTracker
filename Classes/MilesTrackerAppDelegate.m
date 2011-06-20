@@ -8,6 +8,7 @@
 
 #import "MilesTrackerAppDelegate.h"
 #import "UnitConverter.h"
+#import "Event.h"
 
 
 
@@ -130,6 +131,33 @@
  */
 - (NSString *)applicationDocumentsDirectory {
 	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
+
+#pragma mark -
+#pragma mark Utility Methods
+
+- (NSInteger)nextEventID {
+	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
+	[fetchRequest setEntity:entity];
+	
+	NSString* predFormat = @"eventID = max(eventID)";
+	NSPredicate *pred = [NSPredicate predicateWithFormat:predFormat];
+	[fetchRequest setPredicate:pred];
+	
+	NSError* error;
+	NSArray* values = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+	
+	[fetchRequest release];
+	
+	if ( [values count] != 0 ) {
+		Event* event = [values objectAtIndex:0];
+		NSNumber* nextID = [event valueForKey:@"eventID"];
+		
+		return [nextID intValue]+1;
+	} else {
+		return 0;
+	}
 }
 
 

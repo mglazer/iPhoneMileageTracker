@@ -20,7 +20,6 @@
 	UINavigationController* navigationController;
 	MilesTrackerAppDelegate* delegate;
 	UITableViewCell* nibLoadedCell;
-	EventEditorViewController* eventEditor;
 }
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
@@ -28,11 +27,9 @@
 
 @property (nonatomic, retain) IBOutlet UINavigationController* navigationController;
 
-@property (nonatomic, retain) IBOutlet MilesTrackerAppDelegate* delegate;
+@property (nonatomic, assign) IBOutlet MilesTrackerAppDelegate* delegate;
 
 @property (nonatomic, retain) IBOutlet UITableViewCell* nibLoadedCell;
-
-@property (nonatomic, retain) IBOutlet EventEditorViewController* eventEditor;
 
 - (void)addEvent;
 

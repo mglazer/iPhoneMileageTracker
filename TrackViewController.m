@@ -2,53 +2,69 @@
 //  TrackViewController.m
 //  MilesTracker
 //
-//  Created by Mike Glazer on 3/12/10.
+//  Created by Mike Glazer on 5/1/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import "TrackViewController.h"
+#import "MilesTracker.h"
+#import "MilesTrackerAppDelegate.h"
+#import "UnitConverter.h"
+
+#import <RoutingRequest.h>
+#import <RouteSummary.h>
+#import <JsonRoutingParser.h>
 
 
 @implementation TrackViewController
 
+enum StartStopState {
+	StartStopStateNotStarted,
+	StartStopStateStart,
+	StartStopStateEnd
+};
+
+@synthesize startStopControl, startLocationTextField, endLocationTextField, recordButton, activityIndicator, distanceLabel, appDelegate;
+
 /*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) {
+ // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        // Custom initialization
     }
     return self;
 }
 */
 
 /*
+// Implement loadView to create a view hierarchy programmatically, without using a nib.
+- (void)loadView {
+}
+*/
+
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	self.startLocationTextField.delegate = self;
+	self.endLocationTextField.delegate = self;
+	self.recordButton.enabled = NO;
+	self.activityIndicator.hidesWhenStopped = YES;
+	[activityIndicator stopAnimating];
+	
+	self.distanceLabel.alpha = 0.0;
+	
+	locationManager = [[CLLocationManager alloc] init];
+	locationManager.distanceFilter = 10.0f;
+	locationManager.delegate = self;
+	locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	startStopState = StartStopStateNotStarted;
+	
+	tokenManager = [[MilesTracker sharedInstance] tokenManager];
 }
-*/
 
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -57,6 +73,118 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
+
+- (void)updateDistance {
+	
+	if ( startLocation == nil || endLocation == nil ) {
+		NSLog(@"Either start or ending location have not been set");
+		return;
+	}
+		
+	RoutingRequest* request = [MilesTracker createRoutingRequest];
+	request.delegate = self;
+	[request findRoute:startLocation to:endLocation vehicle:@"car" tokenManager:tokenManager];
+	
+	[request release];
+}
+
+- (void)updateLocation {
+	[activityIndicator startAnimating];
+	[locationManager startUpdatingLocation];
+}
+
+- (IBAction)recordButtonClicked {
+	
+	NSLog(@"Record button clicked!");
+	
+}
+
+- (IBAction)pressedStartStopButton {
+	NSLog(@"Pressed button");
+	if ( startStopState == StartStopStateNotStarted ) {
+		[self updateLocation];
+		self.startStopControl.enabled = NO;
+	} else if ( startStopState = StartStopStateStart ) {
+		[self updateLocation];
+		self.startStopControl.enabled = NO;
+	}
+}
+
+#pragma mark -
+#pragma mark UITextFieldDelegate
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+	return NO;
+}
+
+#pragma mark -
+#pragma mark CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Location Update Error"
+													message:[[error userInfo] description]
+													delegate:nil 
+													cancelButtonTitle:@"OK"
+										  otherButtonTitles:nil];
+	[alert show];
+	[alert release];
+	
+	[activityIndicator stopAnimating];
+	startStopControl.enabled = YES;
+}
+
+- (void)locationManager:(CLLocationManager *)manager 
+	didUpdateToLocation:(CLLocation *)newLocation 
+		   fromLocation:(CLLocation *)oldLocation {
+	[activityIndicator stopAnimating];
+	
+	if ( startStopState == StartStopStateNotStarted ) {
+		startStopState = StartStopStateStart;
+		startLocationTextField.text = [NSString stringWithFormat:@"%.2f,%.2f", newLocation.coordinate.latitude, newLocation.coordinate.longitude];
+		startLocation = [newLocation retain];
+	} else if ( startStopState == StartStopStateStart ) {
+		startStopState = StartStopStateEnd;
+		endLocationTextField.text = [NSString stringWithFormat:@"%.2f,%.2f", newLocation.coordinate.latitude, newLocation.coordinate.longitude];
+		
+		[self updateDistance];
+		recordButton.enabled = YES;
+		endLocation = [newLocation retain];
+	}
+	
+	[locationManager stopUpdatingLocation];
+	startStopControl.enabled = YES;
+}
+
+
+#pragma mark -
+#pragma mark ServiceRequestResult
+
+- (void) serviceServerResponse:(NSString *)jsonResponse {
+	JsonRoutingParser* parser = [[JsonRoutingParser alloc] init];
+	
+	if ( [parser responceStatus:jsonResponse] ) {
+		RouteSummary* result = [parser routeSummury:jsonResponse];
+		
+		NSNumber* totalDistance = [NSNumber numberWithFloat:(float)result.totalDistance];
+		
+		distanceLabel.text = [NSString stringWithFormat:@"%.1f %@",
+							  [[appDelegate unitConverter] distanceToLocale:totalDistance],
+							   [[appDelegate unitConverter] localeDistanceString]];
+		
+		[result release];
+	}
+	
+	
+	[parser release];
+}
+
+- (void) serviceServerError:(NSString *)error {
+	NSLog(@"Error: %@", error);
+}
+
+
+#pragma mark -
+#pragma mark Deallocation
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -71,87 +199,21 @@
 }
 
 
-#pragma mark Table view methods
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-
-// Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
-}
-
-
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
-    // Set up the cell...
-	
-    return cell;
-}
-
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
-	// [self.navigationController pushViewController:anotherViewController];
-	// [anotherViewController release];
-}
-
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-
 - (void)dealloc {
     [super dealloc];
+	
+	[startStopControl release];
+	[startLocationTextField release];
+	[endLocationTextField release];
+	[recordButton release];
+	[activityIndicator release];
+	[distanceLabel release];
+	[locationManager release];
+	
+	[startLocation release];
+	[endLocation release];
+
 }
 
 
 @end
-

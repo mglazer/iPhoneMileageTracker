@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
+#import "DatePickerViewController.h"
 
-@protocol DatePickerViewControllerDelegate;
+@class MilesTrackerAppDelegate;
 
 @interface ShareViewController : UITableViewController<MFMailComposeViewControllerDelegate,DatePickerViewControllerDelegate> {
 	UITableViewCell* nibLoadedCell;
@@ -21,9 +22,15 @@
 	NSString* format_;
 	
 	bool editingStartDate_;
+	
+	MilesTrackerAppDelegate* appDelegate;
+	
+	UILabel* footerView;
 }
 
 @property (nonatomic,retain) IBOutlet UITableViewCell* nibLoadedCell;
+@property (nonatomic,assign) IBOutlet MilesTrackerAppDelegate* appDelegate;
+@property (readonly) NSManagedObjectContext* managedObjectContext;
 
 
 @end

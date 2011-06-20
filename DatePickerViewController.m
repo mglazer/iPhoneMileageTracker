@@ -83,12 +83,14 @@
 	// e.g. self.myOutlet = nil;
 	
 	datePicker = nil;
+	delegate = nil;
 }
 
 
 - (void)dealloc {
     [super dealloc];
 
+	[date release];
 	[datePicker release];
 }
 

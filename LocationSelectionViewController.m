@@ -27,6 +27,8 @@
 
 @synthesize selectedAddress;
 @synthesize selectedCoordinate;
+@synthesize updateLocationButton;
+@synthesize toolbar;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -59,12 +61,38 @@
 	//self.navigationItem.rightBarButtonItem = clearMapEntryButton;
 }
 
+- (void)createLocationButtons {
+	coordinateSelectionImage = [UIImage imageNamed:@"location.png"];
+	updateLocationButton = [[UIBarButtonItem alloc] initWithImage:coordinateSelectionImage style:UIBarButtonItemStyleBordered target:self action:@selector(findCurrentLocationClicked)];
+	
+	UIActivityIndicatorView* activityIndicator = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
+	[activityIndicator startAnimating];
+	
+	findingLocationButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+	findingLocationButton.style = UIBarButtonItemStyleDone;
+	
+	//[activityIndicator release];
+	[coordinateSelectionImage release];
+}
+
+- (void)switchToFindingLocationButton {
+	NSArray* buttons = [[NSArray alloc] initWithObjects:findingLocationButton,nil];
+	[self.toolbar setItems:buttons animated:YES];
+	[buttons release];
+}
+
+- (void)switchToUpdateLocationButton {
+	NSArray* buttons = [[NSArray alloc] initWithObjects:updateLocationButton,nil];
+	[self.toolbar setItems:buttons animated:YES];
+	[buttons release];
+}
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
  
 	cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered	target:self action:@selector(cancel)];
-	acceptButton = [[UIBarButtonItem alloc] initWithTitle:@"Accept" style:UIBarButtonItemStyleBordered target:self action:@selector(accept)];
+	acceptButton = [[UIBarButtonItem alloc] initWithTitle:@"Accept" style:UIBarButtonItemStyleDone target:self action:@selector(accept)];
 	cancelMapEntryButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelMapSelect)];
 	
 	[self switchToNavigationMapButtons];
@@ -74,9 +102,13 @@
 	self.locationManager = [[[CLLocationManager alloc] init] autorelease];
 	self.locationManager.delegate = self;
 	
+	[self createLocationButtons];
+	[self switchToUpdateLocationButton];
+	
 	if ( self.existingAddress != nil ) {
 		[self addAnnotationAtLocation:self.existingCoordinate withAddress:self.existingAddress];
-
+		self.selectedAddress = self.existingAddress;
+		self.selectedCoordinate = self.existingCoordinate;
 
 	}
 }
@@ -84,11 +116,11 @@
 - (void)addAnnotationAtLocation:(CLLocationCoordinate2D)coordinate withAddress:(NSString*)address {
 	
 	if ( self.currentAnnotation != nil ) {
-		[mapView removeAnnotation:self.currentAnnotation];
+		[mapView removeAnnotation:currentAnnotation];
 	}
 	
-	EventLocationMapAnnotation* annotation = [EventLocationMapAnnotation annotationWithCoordinate:coordinate];
-	annotation.address = address;
+	currentAnnotation = [EventLocationMapAnnotation annotationWithCoordinate:coordinate];
+	currentAnnotation.address = address;
 		
 	MKCoordinateRegion region;
 	region.center = coordinate;
@@ -98,15 +130,17 @@
 	[self.mapView setRegion:region animated:YES];
 	
 	
-	[self.mapView addAnnotation:annotation];
+	[self.mapView addAnnotation:currentAnnotation];
 		
 	self.addressSearchBar.text = address;
 }
 
 - (void)findGeocodedSelectedLocation:(CLLocationCoordinate2D)coordinate {
-	MKReverseGeocoder* reverseGeocoder = [[[MKReverseGeocoder alloc] initWithCoordinate:coordinate] autorelease];
+	MKReverseGeocoder* reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:coordinate];
 	reverseGeocoder.delegate = self;
 	[reverseGeocoder start];
+	
+
 	NSLog(@"Geocoding");
 }
 
@@ -118,8 +152,9 @@
 }
 */
 
-- (IBAction)findCurrentLocationClicked {
-	NSLog(@"Updating location");
+- (void)findCurrentLocationClicked {
+	[self switchToFindingLocationButton];
+	
 	[self.locationManager startUpdatingLocation];
 }
 
@@ -193,10 +228,13 @@
 	self.selectedCoordinate = newLocation.coordinate;
 	[self findGeocodedSelectedLocation:self.selectedCoordinate];
 	[self addAnnotationAtLocation:self.selectedCoordinate withAddress:@"Searching for address..."];
+	[locationManager stopUpdatingLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
 	NSLog(@"There was an error %@", error.localizedDescription);
+	[self switchToUpdateLocationButton];
+	[locationManager stopUpdatingLocation];
 }
 
 #pragma mark -
@@ -270,9 +308,7 @@
 
 -(void)forwardGeocoderFoundLocation {
 	if(forwardGeocoder.status == G_GEO_SUCCESS)
-	{
-		int searchResults = [forwardGeocoder.results count];
-		
+	{		
 		// Dismiss the keyboard
 		[addressSearchBar resignFirstResponder];
 		
@@ -299,23 +335,54 @@
 #pragma mark -
 #pragma mark MKReverseGeocoder
 
-- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error {
-	
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error {	
+	NSLog(@"Reverse geocoding failed: error given %@", [error userInfo]);
+	selectedAddress = [NSString stringWithFormat:@"%.2f,%.2f", selectedCoordinate.latitude, selectedCoordinate.longitude];
+	[self switchToUpdateLocationButton];
 }
 
 
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark {
 	
-	NSString* address = [NSString stringWithFormat:@"%s %s %s %s %s %s %s %s %s", 
-		placemark.thoroughfare, placemark.subThoroughfare, placemark.locality,
-		placemark.subLocality, placemark.administrativeArea, placemark.subAdministrativeArea,
-						 placemark.postalCode, placemark.country, placemark.countryCode];
+	NSMutableString* buffer = [[NSMutableString alloc] initWithCapacity:64];
+	if ( placemark.thoroughfare ) {
+		[buffer appendString:placemark.thoroughfare];
+		[buffer appendString:@" "];
+	} 
+	if ( placemark.subThoroughfare ) {
+		[buffer appendString:placemark.subThoroughfare];
+		[buffer appendString:@" "];
+	}
+	if ( placemark.locality ) {
+		[buffer appendString:placemark.locality];
+		[buffer appendString:@" "];
+	}
+	if ( placemark.subLocality ) {
+		[buffer appendString:placemark.subLocality];
+		[buffer appendString:@" "];
+	}
+	if ( placemark.administrativeArea ) {
+		[buffer appendString:placemark.administrativeArea];
+		[buffer appendString:@" "];
+	}
+	if ( placemark.postalCode ) {
+		[buffer appendString:placemark.postalCode];
+		[buffer appendString:@" "];
+	} 
+	if ( placemark.country ) {
+		[buffer appendString:placemark.country];
+		[buffer appendString:@" "];
+	}
+	if ( placemark.countryCode ) {
+		[buffer appendString:placemark.countryCode];
+		[buffer appendString:@" "];
+	}
 	
-	NSLog(@"Current address: %@", address);
-	self.selectedAddress = address;
-	[self addAnnotationAtLocation:self.selectedCoordinate withAddress:address];
+	self.selectedAddress = buffer;
+	[self addAnnotationAtLocation:self.selectedCoordinate withAddress:buffer];
+	[self switchToUpdateLocationButton];
 	
-	[address release];
+	[buffer release];
 }
 
 
@@ -373,6 +440,7 @@
 	[currentAnnotation release];
 	
 	[selectedAddress release];
+	[toolbar release];
 		
     [super dealloc];
 }

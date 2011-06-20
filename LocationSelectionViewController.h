@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "BSForwardGeocoder.h"
-#import "UItableAlert.h"
+#import "UITableAlert.h"
 
 
 @class CLLocation;
@@ -39,6 +39,10 @@
 	UIBarButtonItem* acceptButton;
 	UIBarButtonItem* clearMapEntryButton;
 	UIBarButtonItem* cancelMapEntryButton;
+	UIBarButtonItem* updateLocationButton;
+	UIBarButtonItem* findingLocationButton;
+	UIToolbar*		 toolbar;
+	UIImage*		 coordinateSelectionImage;
 	
 }
 
@@ -48,13 +52,15 @@
 @property (nonatomic,retain) CLLocationManager* locationManager;
 @property (nonatomic,retain) BSForwardGeocoder* forwardGeocoder;
 @property (nonatomic,retain) EventLocationMapAnnotation* currentAnnotation;
-@property (nonatomic,retain) NSString* existingAddress;
+@property (nonatomic,copy) NSString* existingAddress;
 @property (nonatomic,assign) CLLocationCoordinate2D existingCoordinate;
 @property (nonatomic,copy) NSString* selectedAddress;
 @property (nonatomic,assign) CLLocationCoordinate2D selectedCoordinate;
+@property (nonatomic,retain) UIBarButtonItem* updateLocationButton;
+@property (nonatomic,retain) IBOutlet UIToolbar* toolbar;
 
 
-- (IBAction)findCurrentLocationClicked;
+- (void)findCurrentLocationClicked;
 - (void)accept;
 - (void)cancel;
 - (void)cancelMapSelect;

@@ -16,10 +16,10 @@
 	NSDate* date;
 }
 
-+(UINavigationController*) initWithNavigationBar:(id<DatePickerViewControllerDelegate>)delegate andDate:(NSDate*)date;
+//+(UINavigationController*) initWithNavigationBar:(id<DatePickerViewControllerDelegate>)delegate andDate:(NSDate*)date;
 
 @property (nonatomic,retain) IBOutlet UIDatePicker* datePicker;
-@property (readwrite,assign) NSDate* date;
+@property (readwrite,copy) NSDate* date;
 @property (nonatomic,assign) id<DatePickerViewControllerDelegate> delegate;
 
 

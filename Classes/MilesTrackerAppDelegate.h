@@ -30,6 +30,7 @@
 @property (nonatomic, retain) UnitConverter* unitConverter;
 
 - (NSString *)applicationDocumentsDirectory;
+- (NSInteger)nextEventID;
 
 
 @end

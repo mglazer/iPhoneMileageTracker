@@ -8,7 +8,6 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="31"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -44,9 +43,6 @@
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 			</object>
 			<object class="IBUICustomObject" id="367404502"/>
-			<object class="IBUIViewController" id="932906229">
-				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-			</object>
 			<object class="IBUITabBarController" id="813952360">
 				<string key="IBUITitle">Mileage Tracker</string>
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
@@ -58,7 +54,6 @@
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">history.png</string>
 						</object>
-						<reference key="IBUITabBar"/>
 					</object>
 					<object class="NSArray" key="IBUIToolbarItems">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -80,7 +75,6 @@
 								<bool key="EncodedWithXMLCoder">YES</bool>
 							</object>
 							<object class="IBUINavigationItem" key="IBUINavigationItem" id="210491926">
-								<reference key="IBUINavigationBar"/>
 								<string key="IBUITitle">Item</string>
 							</object>
 							<reference key="IBUIParentViewController" ref="1011829609"/>
@@ -98,7 +92,6 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">track.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="813952360"/>
 						<string key="IBUINibName">TrackView</string>
@@ -112,7 +105,6 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">share.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="813952360"/>
 						<string key="IBUINibName">ShareView</string>
@@ -126,7 +118,6 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">settings.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="813952360"/>
 						<string key="IBUINibName">SettingsView</string>
@@ -190,11 +181,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">eventEditor</string>
-						<reference key="source" ref="282114879"/>
-						<reference key="destination" ref="932906229"/>
+						<string key="label">appDelegate</string>
+						<reference key="source" ref="720974351"/>
+						<reference key="destination" ref="367404502"/>
 					</object>
-					<int key="connectionID">39</int>
+					<int key="connectionID">40</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">appDelegate</string>
+						<reference key="source" ref="1066816380"/>
+						<reference key="destination" ref="367404502"/>
+					</object>
+					<int key="connectionID">41</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -327,11 +326,6 @@
 						<reference key="object" ref="210491926"/>
 						<reference key="parent" ref="282114879"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">38</int>
-						<reference key="object" ref="932906229"/>
-						<reference key="parent" ref="145609225"/>
-					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -349,9 +343,6 @@
 					<string>3.IBEditorWindowLastContentRect</string>
 					<string>3.IBPluginDependency</string>
 					<string>31.CustomClassName</string>
-					<string>38.CustomClassName</string>
-					<string>38.IBEditorWindowLastContentRect</string>
-					<string>38.IBPluginDependency</string>
 					<string>4.IBPluginDependency</string>
 					<string>5.CustomClassName</string>
 					<string>5.IBPluginDependency</string>
@@ -373,9 +364,6 @@
 					<string>{{461, 182}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>HistoryTableViewController</string>
-					<string>EventEditorViewController</string>
-					<string>{{461, 221}, {320, 480}}</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>TrackViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -405,19 +393,11 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">39</int>
+			<int key="maxID">41</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<object class="IBPartialClassDescription">
-					<string key="className">EventEditorViewController</string>
-					<string key="superclassName">UITableViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">EventEditorViewController.h</string>
-					</object>
-				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">HistoryTableViewController</string>
 					<string key="superclassName">UITableViewController</string>
@@ -426,14 +406,12 @@
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>delegate</string>
-							<string>eventEditor</string>
 							<string>navigationController</string>
 							<string>nibLoadedCell</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>MilesTrackerAppDelegate</string>
-							<string>EventEditorViewController</string>
 							<string>UINavigationController</string>
 							<string>UITableViewCell</string>
 						</object>
@@ -475,6 +453,19 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ShareViewController</string>
 					<string key="superclassName">UITableViewController</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>appDelegate</string>
+							<string>nibLoadedCell</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>MilesTrackerAppDelegate</string>
+							<string>UITableViewCell</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/ShareViewController.h</string>
@@ -482,7 +473,43 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">TrackViewController</string>
-					<string key="superclassName">UITableViewController</string>
+					<string key="superclassName">UIViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>pressedStartStopButton</string>
+							<string>recordButtonClicked</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>activityIndicator</string>
+							<string>appDelegate</string>
+							<string>distanceLabel</string>
+							<string>endLocationTextField</string>
+							<string>recordButton</string>
+							<string>startLocationTextField</string>
+							<string>startStopControl</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIActivityIndicatorView</string>
+							<string>MilesTrackerAppDelegate</string>
+							<string>UILabel</string>
+							<string>UITextField</string>
+							<string>UIButton</string>
+							<string>UITextField</string>
+							<string>UISegmentedControl</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">TrackViewController.h</string>

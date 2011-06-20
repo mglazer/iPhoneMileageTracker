@@ -21,7 +21,6 @@
 		272C8D2A114ADF8A00B641C4 /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272C8D29114ADF8A00B641C4 /* SettingsView.xib */; };
 		272C8D3D114AE73300B641C4 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C8D3C114AE73300B641C4 /* SettingsViewController.m */; };
 		272C8D49114AE84100B641C4 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C8D48114AE84100B641C4 /* ShareViewController.m */; };
-		272C8D54114AE9EE00B641C4 /* TrackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C8D53114AE9EE00B641C4 /* TrackViewController.m */; };
 		272C8DA5114AEEA000B641C4 /* HistoryControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C8DA4114AEEA000B641C4 /* HistoryControllerDelegate.m */; };
 		272C8F0D114B470900B641C4 /* HistoryViewTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272C8F0C114B470900B641C4 /* HistoryViewTableCell.xib */; };
 		272C8F6D114D997000B641C4 /* EventEditorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272C8F6C114D997000B641C4 /* EventEditorView.xib */; };
@@ -29,7 +28,6 @@
 		272C902D114DDE5300B641C4 /* EventEditNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C902B114DDE5300B641C4 /* EventEditNameViewController.m */; };
 		272C9037114DE48600B641C4 /* EventAddView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272C9036114DE48600B641C4 /* EventAddView.xib */; };
 		272C908F1152732C00B641C4 /* MilesTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 272C908E1152732C00B641C4 /* MilesTracker.xcdatamodeld */; };
-		272C90D31152785A00B641C4 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C90D21152785A00B641C4 /* Event.m */; };
 		272C91191152915500B641C4 /* LocationSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272C91181152915500B641C4 /* LocationSelectionView.xib */; };
 		272C911E1152916700B641C4 /* LocationSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272C911D1152916700B641C4 /* LocationSelectionViewController.m */; };
 		272C91301152936100B641C4 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272C912F1152936100B641C4 /* MapKit.framework */; };
@@ -49,10 +47,22 @@
 		2773389E1183AB8300DB0A3E /* envelope.png in Resources */ = {isa = PBXBuildFile; fileRef = 2773389D1183AB8300DB0A3E /* envelope.png */; };
 		2773393E1185346000DB0A3E /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2773393C1185346000DB0A3E /* DatePickerViewController.m */; };
 		2773393F1185346000DB0A3E /* DatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2773393D1185346000DB0A3E /* DatePickerView.xib */; };
+		279DE7D61191C2D600D179A2 /* icon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 279DE7D41191C2D600D179A2 /* icon.jpg */; };
+		279DE7D71191C2D600D179A2 /* iTunesArtwork.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 279DE7D51191C2D600D179A2 /* iTunesArtwork.jpg */; };
 		27F7E95A1186AA4D00B08DB5 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F7E9591186AA4D00B08DB5 /* libstdc++.6.dylib */; };
 		27F7E95D1186AA7300B08DB5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F7E95C1186AA7300B08DB5 /* QuartzCore.framework */; };
 		27F7E9691186AB4B00B08DB5 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F7E9681186AB4B00B08DB5 /* libsqlite3.dylib */; };
 		27F7EA7411892A0800B08DB5 /* UnitConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F7EA7311892A0800B08DB5 /* UnitConverter.m */; };
+		27F7EBB8118BBD5500B08DB5 /* DistanceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F7EBB7118BBD5500B08DB5 /* DistanceTableViewCell.xib */; };
+		27F7EBBE118CD58400B08DB5 /* DistancePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F7EBBD118CD58400B08DB5 /* DistancePickerViewController.m */; };
+		27F7EC74118CE7FD00B08DB5 /* TagSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F7EC73118CE7FD00B08DB5 /* TagSelectionController.m */; };
+		27F7EC78118CE81000B08DB5 /* TagsHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F7EC77118CE81000B08DB5 /* TagsHeaderView.xib */; };
+		27F7EC80118CE9D500B08DB5 /* EditableTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F7EC7F118CE9D500B08DB5 /* EditableTableViewCell.xib */; };
+		27F7EC83118CEA0200B08DB5 /* EditableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F7EC82118CEA0200B08DB5 /* EditableTableViewCell.m */; };
+		27F7EE42118D396C00B08DB5 /* TrackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F7EE41118D396C00B08DB5 /* TrackViewController.m */; };
+		27F7EF7F11912E1200B08DB5 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F7EF7C11912E1200B08DB5 /* Event.m */; };
+		27F7EF8011912E1200B08DB5 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F7EF7E11912E1200B08DB5 /* Tag.m */; };
+		27F7EFB1119132D700B08DB5 /* RoutingRequestAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F7EFB0119132D700B08DB5 /* RoutingRequestAdditions.m */; };
 		28860BE50F44EE6400985440 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28860BE40F44EE6400985440 /* CoreData.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		2899E5600DE3E45000AC0155 /* HistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E55F0DE3E45000AC0155 /* HistoryView.xib */; };
@@ -77,8 +87,6 @@
 		272C8D3C114AE73300B641C4 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Classes/SettingsViewController.m; sourceTree = "<group>"; };
 		272C8D47114AE84100B641C4 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareViewController.h; path = Classes/ShareViewController.h; sourceTree = "<group>"; };
 		272C8D48114AE84100B641C4 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareViewController.m; path = Classes/ShareViewController.m; sourceTree = "<group>"; };
-		272C8D52114AE9EE00B641C4 /* TrackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackViewController.h; sourceTree = "<group>"; };
-		272C8D53114AE9EE00B641C4 /* TrackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackViewController.m; sourceTree = "<group>"; };
 		272C8DA3114AEEA000B641C4 /* HistoryControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryControllerDelegate.h; sourceTree = "<group>"; };
 		272C8DA4114AEEA000B641C4 /* HistoryControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryControllerDelegate.m; sourceTree = "<group>"; };
 		272C8F0C114B470900B641C4 /* HistoryViewTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistoryViewTableCell.xib; sourceTree = "<group>"; };
@@ -88,9 +96,6 @@
 		272C902A114DDE5300B641C4 /* EventEditNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventEditNameViewController.h; sourceTree = "<group>"; };
 		272C902B114DDE5300B641C4 /* EventEditNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventEditNameViewController.m; sourceTree = "<group>"; };
 		272C9036114DE48600B641C4 /* EventAddView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventAddView.xib; sourceTree = "<group>"; };
-		272C90901152732C00B641C4 /* MilesTracker 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MilesTracker 2.xcdatamodel"; sourceTree = "<group>"; };
-		272C90D11152785A00B641C4 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
-		272C90D21152785A00B641C4 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		272C91181152915500B641C4 /* LocationSelectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocationSelectionView.xib; sourceTree = "<group>"; };
 		272C911C1152916700B641C4 /* LocationSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSelectionViewController.h; sourceTree = "<group>"; };
 		272C911D1152916700B641C4 /* LocationSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSelectionViewController.m; sourceTree = "<group>"; };
@@ -121,11 +126,30 @@
 		2773393B1185346000DB0A3E /* DatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerViewController.h; sourceTree = "<group>"; };
 		2773393C1185346000DB0A3E /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerViewController.m; sourceTree = "<group>"; };
 		2773393D1185346000DB0A3E /* DatePickerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DatePickerView.xib; sourceTree = "<group>"; };
+		279DE7D41191C2D600D179A2 /* icon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = icon.jpg; sourceTree = "<group>"; };
+		279DE7D51191C2D600D179A2 /* iTunesArtwork.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = iTunesArtwork.jpg; sourceTree = "<group>"; };
 		27F7E9591186AA4D00B08DB5 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		27F7E95C1186AA7300B08DB5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		27F7E9681186AB4B00B08DB5 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		27F7EA7211892A0800B08DB5 /* UnitConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitConverter.h; sourceTree = "<group>"; };
 		27F7EA7311892A0800B08DB5 /* UnitConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitConverter.m; sourceTree = "<group>"; };
+		27F7EBB7118BBD5500B08DB5 /* DistanceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DistanceTableViewCell.xib; sourceTree = "<group>"; };
+		27F7EBBC118CD58400B08DB5 /* DistancePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistancePickerViewController.h; sourceTree = "<group>"; };
+		27F7EBBD118CD58400B08DB5 /* DistancePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistancePickerViewController.m; sourceTree = "<group>"; };
+		27F7EC72118CE7FD00B08DB5 /* TagSelectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagSelectionController.h; sourceTree = "<group>"; };
+		27F7EC73118CE7FD00B08DB5 /* TagSelectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagSelectionController.m; sourceTree = "<group>"; };
+		27F7EC77118CE81000B08DB5 /* TagsHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagsHeaderView.xib; sourceTree = "<group>"; };
+		27F7EC7F118CE9D500B08DB5 /* EditableTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditableTableViewCell.xib; sourceTree = "<group>"; };
+		27F7EC81118CEA0200B08DB5 /* EditableTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditableTableViewCell.h; sourceTree = "<group>"; };
+		27F7EC82118CEA0200B08DB5 /* EditableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditableTableViewCell.m; sourceTree = "<group>"; };
+		27F7EE40118D396C00B08DB5 /* TrackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackViewController.h; sourceTree = "<group>"; };
+		27F7EE41118D396C00B08DB5 /* TrackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackViewController.m; sourceTree = "<group>"; };
+		27F7EF7B11912E1200B08DB5 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		27F7EF7C11912E1200B08DB5 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		27F7EF7D11912E1200B08DB5 /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
+		27F7EF7E11912E1200B08DB5 /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
+		27F7EFAF119132D700B08DB5 /* RoutingRequestAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutingRequestAdditions.h; sourceTree = "<group>"; };
+		27F7EFB0119132D700B08DB5 /* RoutingRequestAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutingRequestAdditions.m; sourceTree = "<group>"; };
 		28860B760F44E54D00985440 /* MilesTracker.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = MilesTracker.xcdatamodel; sourceTree = "<group>"; };
 		28860BE40F44EE6400985440 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -171,6 +195,8 @@
 				2773388411826BB600DB0A3E /* MilesTracker.m */,
 				27F7EA7211892A0800B08DB5 /* UnitConverter.h */,
 				27F7EA7311892A0800B08DB5 /* UnitConverter.m */,
+				27F7EFAF119132D700B08DB5 /* RoutingRequestAdditions.h */,
+				27F7EFB0119132D700B08DB5 /* RoutingRequestAdditions.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -186,6 +212,8 @@
 		272C8F05114B45F800B641C4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				27F7EC7F118CE9D500B08DB5 /* EditableTableViewCell.xib */,
+				27F7EC77118CE81000B08DB5 /* TagsHeaderView.xib */,
 				2899E55F0DE3E45000AC0155 /* HistoryView.xib */,
 				272C8D13114ADD9B00B641C4 /* MainWindow.xib */,
 				272C8F0C114B470900B641C4 /* HistoryViewTableCell.xib */,
@@ -197,6 +225,7 @@
 				272C91181152915500B641C4 /* LocationSelectionView.xib */,
 				27733897118271F900DB0A3E /* SendTableViewCell.xib */,
 				2773393D1185346000DB0A3E /* DatePickerView.xib */,
+				27F7EBB7118BBD5500B08DB5 /* DistanceTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -204,8 +233,10 @@
 		272C8F06114B461F00B641C4 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				272C8D52114AE9EE00B641C4 /* TrackViewController.h */,
-				272C8D53114AE9EE00B641C4 /* TrackViewController.m */,
+				27F7EC81118CEA0200B08DB5 /* EditableTableViewCell.h */,
+				27F7EC82118CEA0200B08DB5 /* EditableTableViewCell.m */,
+				27F7EC72118CE7FD00B08DB5 /* TagSelectionController.h */,
+				27F7EC73118CE7FD00B08DB5 /* TagSelectionController.m */,
 				272C911C1152916700B641C4 /* LocationSelectionViewController.h */,
 				272C911D1152916700B641C4 /* LocationSelectionViewController.m */,
 				28C286DF0D94DF7D0034E888 /* HistoryTableViewController.h */,
@@ -220,6 +251,10 @@
 				272C8F84114DA2FC00B641C4 /* EventEditorViewController.m */,
 				272C902A114DDE5300B641C4 /* EventEditNameViewController.h */,
 				272C902B114DDE5300B641C4 /* EventEditNameViewController.m */,
+				27F7EBBC118CD58400B08DB5 /* DistancePickerViewController.h */,
+				27F7EBBD118CD58400B08DB5 /* DistancePickerViewController.m */,
+				27F7EE40118D396C00B08DB5 /* TrackViewController.h */,
+				27F7EE41118D396C00B08DB5 /* TrackViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -227,8 +262,10 @@
 		272C8F6F114D9FCD00B641C4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				272C90D11152785A00B641C4 /* Event.h */,
-				272C90D21152785A00B641C4 /* Event.m */,
+				27F7EF7B11912E1200B08DB5 /* Event.h */,
+				27F7EF7C11912E1200B08DB5 /* Event.m */,
+				27F7EF7D11912E1200B08DB5 /* Tag.h */,
+				27F7EF7E11912E1200B08DB5 /* Tag.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -292,6 +329,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				279DE7D41191C2D600D179A2 /* icon.jpg */,
+				279DE7D51191C2D600D179A2 /* iTunesArtwork.jpg */,
 				2773389D1183AB8300DB0A3E /* envelope.png */,
 				272C922E1154474100B641C4 /* location.png */,
 				272C8D1C114ADED000B641C4 /* track.png */,
@@ -385,6 +424,11 @@
 				27733898118271F900DB0A3E /* SendTableViewCell.xib in Resources */,
 				2773389E1183AB8300DB0A3E /* envelope.png in Resources */,
 				2773393F1185346000DB0A3E /* DatePickerView.xib in Resources */,
+				27F7EBB8118BBD5500B08DB5 /* DistanceTableViewCell.xib in Resources */,
+				27F7EC78118CE81000B08DB5 /* TagsHeaderView.xib in Resources */,
+				27F7EC80118CE9D500B08DB5 /* EditableTableViewCell.xib in Resources */,
+				279DE7D61191C2D600D179A2 /* icon.jpg in Resources */,
+				279DE7D71191C2D600D179A2 /* iTunesArtwork.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,11 +445,9 @@
 				272C908F1152732C00B641C4 /* MilesTracker.xcdatamodeld in Sources */,
 				272C8D3D114AE73300B641C4 /* SettingsViewController.m in Sources */,
 				272C8D49114AE84100B641C4 /* ShareViewController.m in Sources */,
-				272C8D54114AE9EE00B641C4 /* TrackViewController.m in Sources */,
 				272C8DA5114AEEA000B641C4 /* HistoryControllerDelegate.m in Sources */,
 				272C8F85114DA2FC00B641C4 /* EventEditorViewController.m in Sources */,
 				272C902D114DDE5300B641C4 /* EventEditNameViewController.m in Sources */,
-				272C90D31152785A00B641C4 /* Event.m in Sources */,
 				272C911E1152916700B641C4 /* LocationSelectionViewController.m in Sources */,
 				277335EB117EABB700DB0A3E /* BSKmlResult.m in Sources */,
 				277335EC117EABB700DB0A3E /* BSAddressComponent.m in Sources */,
@@ -418,6 +460,13 @@
 				2773388511826BB600DB0A3E /* MilesTracker.m in Sources */,
 				2773393E1185346000DB0A3E /* DatePickerViewController.m in Sources */,
 				27F7EA7411892A0800B08DB5 /* UnitConverter.m in Sources */,
+				27F7EBBE118CD58400B08DB5 /* DistancePickerViewController.m in Sources */,
+				27F7EC74118CE7FD00B08DB5 /* TagSelectionController.m in Sources */,
+				27F7EC83118CEA0200B08DB5 /* EditableTableViewCell.m in Sources */,
+				27F7EE42118D396C00B08DB5 /* TrackViewController.m in Sources */,
+				27F7EF7F11912E1200B08DB5 /* Event.m in Sources */,
+				27F7EF8011912E1200B08DB5 /* Tag.m in Sources */,
+				27F7EFB1119132D700B08DB5 /* RoutingRequestAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,7 +503,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Michael Glazer (9Y53G7D2C8)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -493,6 +542,7 @@
 					"-all_load",
 				);
 				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8FA93EFD-53D3-4DB0-B166-C363E95E6019";
 				SDKROOT = iphoneos3.1.3;
 			};
 			name = Debug;
@@ -501,7 +551,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Michael Glazer (9Y53G7D2C8)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -540,6 +590,7 @@
 					"-all_load",
 				);
 				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8FA93EFD-53D3-4DB0-B166-C363E95E6019";
 				SDKROOT = iphoneos3.1.3;
 			};
 			name = Release;
@@ -572,7 +623,6 @@
 			isa = XCVersionGroup;
 			children = (
 				28860B760F44E54D00985440 /* MilesTracker.xcdatamodel */,
-				272C90901152732C00B641C4 /* MilesTracker 2.xcdatamodel */,
 			);
 			currentVersion = 28860B760F44E54D00985440 /* MilesTracker.xcdatamodel */;
 			path = MilesTracker.xcdatamodeld;

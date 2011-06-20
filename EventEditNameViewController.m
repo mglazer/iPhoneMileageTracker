@@ -14,6 +14,7 @@
 @synthesize name, title;
 @synthesize nameTextField;
 @synthesize delegate;
+@synthesize nextID;
 
 
 /*

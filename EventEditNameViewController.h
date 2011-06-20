@@ -16,10 +16,12 @@
 	UITextField *nameTextField;
 	id <EventNameDelegate> delegate;
 	NSString* title;
+	NSInteger nextID;
 }
 
 @property(nonatomic, copy) NSString* name;
 @property(nonatomic, copy) NSString* title;
+@property(nonatomic, assign) NSInteger nextID;
 @property(nonatomic, retain) IBOutlet UITextField* nameTextField;
 @property(nonatomic, retain) id <EventNameDelegate> delegate;
 
